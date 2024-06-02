@@ -1,0 +1,14 @@
+package com.example.marketapi.service;
+
+import com.example.marketapi.dto.product.request.ProductRequestDto;
+import com.example.marketapi.dto.product.respose.ProductResponseDto;
+
+import java.util.List;
+
+public interface ProductService {
+
+    void addProduct(ProductRequestDto productRequestDto);
+    List<ProductResponseDto> getProductList();
+
+    ProductResponseDto getProductDetails(Long id);
+}
