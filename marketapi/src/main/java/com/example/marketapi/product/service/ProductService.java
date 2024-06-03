@@ -1,7 +1,7 @@
-package com.example.marketapi.service;
+package com.example.marketapi.product.service;
 
-import com.example.marketapi.dto.product.request.ProductRequestDto;
-import com.example.marketapi.dto.product.response.ProductResponseDto;
+import com.example.marketapi.product.dto.request.ProductRequestDto;
+import com.example.marketapi.product.dto.response.ProductResponseDto;
 
 import java.util.List;
 

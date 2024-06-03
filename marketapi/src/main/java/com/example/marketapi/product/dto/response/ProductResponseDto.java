@@ -1,7 +1,7 @@
-package com.example.marketapi.dto.product.response;
+package com.example.marketapi.product.dto.response;
 
-import com.example.marketapi.domain.product.Preserved;
-import com.example.marketapi.domain.product.Product;
+import com.example.marketapi.product.domain.Preserved;
+import com.example.marketapi.product.domain.Product;
 import lombok.Builder;
 import lombok.Getter;
 

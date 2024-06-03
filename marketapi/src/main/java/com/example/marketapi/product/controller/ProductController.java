@@ -1,9 +1,9 @@
-package com.example.marketapi.controller;
+package com.example.marketapi.product.controller;
 
-import com.example.marketapi.domain.member.Role;
-import com.example.marketapi.dto.product.request.ProductRequestDto;
-import com.example.marketapi.dto.product.response.ProductResponseDto;
-import com.example.marketapi.service.ProductService;
+import com.example.marketapi.member.domain.Role;
+import com.example.marketapi.product.dto.request.ProductRequestDto;
+import com.example.marketapi.product.dto.response.ProductResponseDto;
+import com.example.marketapi.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

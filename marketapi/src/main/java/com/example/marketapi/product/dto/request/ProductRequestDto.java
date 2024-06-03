@@ -1,10 +1,8 @@
-package com.example.marketapi.dto.product.request;
+package com.example.marketapi.product.dto.request;
 
-import com.example.marketapi.domain.product.Preserved;
-import com.example.marketapi.domain.product.Product;
-import lombok.AccessLevel;
+import com.example.marketapi.product.domain.Preserved;
+import com.example.marketapi.product.domain.Product;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
 public class ProductRequestDto {

@@ -1,6 +1,6 @@
-package com.example.marketapi.repository;
+package com.example.marketapi.product.repository;
 
-import com.example.marketapi.domain.product.Product;
+import com.example.marketapi.product.domain.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,10 +1,10 @@
-package com.example.marketapi.service;
+package com.example.marketapi.product.service;
 
-import com.example.marketapi.domain.product.Preserved;
-import com.example.marketapi.domain.product.Product;
-import com.example.marketapi.dto.product.request.ProductRequestDto;
-import com.example.marketapi.dto.product.response.ProductResponseDto;
-import com.example.marketapi.repository.ProductRepository;
+import com.example.marketapi.product.domain.Preserved;
+import com.example.marketapi.product.domain.Product;
+import com.example.marketapi.product.dto.request.ProductRequestDto;
+import com.example.marketapi.product.dto.response.ProductResponseDto;
+import com.example.marketapi.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

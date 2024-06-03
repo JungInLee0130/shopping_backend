@@ -1,4 +1,4 @@
-package com.example.marketapi.domain.member;
+package com.example.marketapi.member.domain;
 
 import jakarta.persistence.*;
 import lombok.*;

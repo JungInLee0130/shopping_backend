@@ -1,4 +1,4 @@
-package com.example.marketapi.domain.product;
+package com.example.marketapi.product.domain;
 
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -23,6 +23,9 @@ public class Product {
 
     @Column(name = "preserved")
     private Preserved preserved; // 예약상태
+
+    @Column(name = "seller_name")
+    private String sellerName; // 판매자 이름
 
     @Builder
     private Product(String name, String price, Preserved preserved) {
