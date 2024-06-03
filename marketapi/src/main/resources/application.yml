@@ -1,2 +1,24 @@
-spring.application.name=${APPLICATION_NAME}
-spring.config.import=env.properties
+spring:
+  ### env ?? import
+  config:
+    import: env.yml
+
+  application:
+    name: ${APPLICATION_NAME}
+
+---
+### jpa
+spring:
+  jpa:
+    database-platform: org.hibernate.dialect.MariaDBDialect
+    hibernate:
+      ddl-auto: update
+
+---
+###mariadb
+spring:
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: ${MARIA_URL}
+    username: ${MARIA_USERNAME}
+    password: ${MARIA_PASSWORD}

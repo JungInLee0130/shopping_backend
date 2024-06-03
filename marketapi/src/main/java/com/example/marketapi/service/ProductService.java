@@ -2,6 +2,7 @@ package com.example.marketapi.service;
 
 import com.example.marketapi.dto.product.request.ProductRequestDto;
 import com.example.marketapi.dto.product.respose.ProductResponseDto;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
