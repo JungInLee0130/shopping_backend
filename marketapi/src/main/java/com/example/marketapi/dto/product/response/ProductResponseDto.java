@@ -1,10 +1,9 @@
-package com.example.marketapi.dto.product.respose;
+package com.example.marketapi.dto.product.response;
 
 import com.example.marketapi.domain.product.Preserved;
 import com.example.marketapi.domain.product.Product;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;

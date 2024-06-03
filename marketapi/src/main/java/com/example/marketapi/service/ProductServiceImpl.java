@@ -3,14 +3,13 @@ package com.example.marketapi.service;
 import com.example.marketapi.domain.product.Preserved;
 import com.example.marketapi.domain.product.Product;
 import com.example.marketapi.dto.product.request.ProductRequestDto;
-import com.example.marketapi.dto.product.respose.ProductResponseDto;
+import com.example.marketapi.dto.product.response.ProductResponseDto;
 import com.example.marketapi.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 
 @Service
