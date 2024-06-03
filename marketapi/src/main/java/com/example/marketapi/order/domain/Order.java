@@ -21,4 +21,11 @@ public class Order {
     
     @Column(name = "product_id")
     private Long productId; // 제품번호
+
+    @Builder
+    private Order(String sellerName, String purchaserName, Long productId) {
+        this.sellerName = sellerName;
+        this.purchaserName = purchaserName;
+        this.productId = productId;
+    }
 }

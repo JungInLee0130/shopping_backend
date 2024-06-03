@@ -18,9 +18,11 @@ public class OrderController {
 
     // 거래시작 : 구매자
     @GetMapping("/order")
-    public void orderProduct(String name){
+    public ResponseEntity<Void> orderProduct(OrderRequestDto orderRequestDto){
         // 구매자이름 + 제품 정보 + 판매자이름을 저장
-        orderService.orderProduct(name);
+        orderService.orderProduct(orderRequestDto);
+
+        return ResponseEntity.ok().build();
     }
 
     // 거래내역 확인 : 판매자, 구매자
