@@ -1,5 +1,6 @@
 package com.example.marketapi.service;
 
+import com.example.marketapi.domain.product.Preserved;
 import com.example.marketapi.domain.product.Product;
 import com.example.marketapi.dto.product.request.ProductRequestDto;
 import com.example.marketapi.dto.product.respose.ProductResponseDto;
@@ -23,6 +24,15 @@ public class ProductServiceImpl implements ProductService{
         Product product = productRequestDto.toEntity();
         // 제품 넣기
         productRepository.save(product);
+    }
+
+    @Override
+    public void buyProduct(Long id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException());
+
+        // 예약중으로 변경
+        product.updatePreserved(Preserved.PRESERVED);
     }
 
     @Override

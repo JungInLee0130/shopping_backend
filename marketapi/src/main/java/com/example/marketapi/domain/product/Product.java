@@ -30,4 +30,8 @@ public class Product {
         this.price = price;
         this.preserved = preserved;
     }
+
+    public void updatePreserved(Preserved preserved) {
+        this.preserved = preserved;
+    }
 }
