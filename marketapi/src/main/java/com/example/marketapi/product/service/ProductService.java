@@ -1,6 +1,8 @@
 package com.example.marketapi.product.service;
 
 import com.example.marketapi.product.dto.request.ProductRequestDto;
+import com.example.marketapi.product.dto.response.ProductPreservedResponseDto;
+import com.example.marketapi.product.dto.response.ProductPurchasedResponseDto;
 import com.example.marketapi.product.dto.response.ProductResponseDto;
 
 import java.util.List;
@@ -13,4 +15,8 @@ public interface ProductService {
     List<ProductResponseDto> getProductList();
 
     ProductResponseDto getProductDetails(Long id);
+
+    List<ProductPurchasedResponseDto> getPurchasedProducts(String name);
+
+    List<ProductPreservedResponseDto> getPreservedProducts(String name);
 }

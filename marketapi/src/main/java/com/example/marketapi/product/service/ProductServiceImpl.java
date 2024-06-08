@@ -3,6 +3,8 @@ package com.example.marketapi.product.service;
 import com.example.marketapi.product.domain.Preserved;
 import com.example.marketapi.product.domain.Product;
 import com.example.marketapi.product.dto.request.ProductRequestDto;
+import com.example.marketapi.product.dto.response.ProductPreservedResponseDto;
+import com.example.marketapi.product.dto.response.ProductPurchasedResponseDto;
 import com.example.marketapi.product.dto.response.ProductResponseDto;
 import com.example.marketapi.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -47,5 +49,23 @@ public class ProductServiceImpl implements ProductService{
                 .orElseThrow(() -> new NoSuchElementException());
 
         return ProductResponseDto.of(product);
+    }
+
+    @Override
+    public List<ProductPurchasedResponseDto> getPurchasedProducts(String name) {
+        // 이름과 완료된 목록들 불러오기
+        List<Product> products = productRepository.findAllByNameAndPreserved(name, Preserved.FINISH)
+                .orElseThrow(() -> new NoSuchElementException());
+
+        return ProductPurchasedResponseDto.of(products);
+    }
+
+    @Override
+    public List<ProductPreservedResponseDto> getPreservedProducts(String name) {
+        // 이름과 완료된 목록들 불러오기
+        List<Product> products = productRepository.findAllByNameAndPreserved(name, Preserved.PRESERVED)
+                .orElseThrow(() -> new NoSuchElementException());
+
+        return ProductPreservedResponseDto.of(products);
     }
 }
