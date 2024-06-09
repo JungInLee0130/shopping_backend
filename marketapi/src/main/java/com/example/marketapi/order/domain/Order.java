@@ -22,6 +22,10 @@ public class Order {
     @Column(name = "product_id")
     private Long productId; // 제품번호
 
+    @OneToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
+
     @Builder
     private Order(String sellerName, String purchaserName, Long productId) {
         this.sellerName = sellerName;

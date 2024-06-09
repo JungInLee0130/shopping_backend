@@ -27,6 +27,9 @@ public class Product {
     @Column(name = "seller_name")
     private String sellerName; // 판매자 이름
 
+    @OneToOne(mappedBy = "product")
+    private Order order;
+
     @Builder
     private Product(String name, String price, Preserved preserved) {
         this.name = name;
