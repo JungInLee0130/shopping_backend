@@ -1,5 +1,6 @@
 package com.example.marketapi.order.domain;
 
+import com.example.marketapi.product.domain.Product;
 import jakarta.persistence.*;
 import lombok.*;
 

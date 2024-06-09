@@ -1,8 +1,8 @@
 package com.example.marketapi.product.service;
 
 import com.example.marketapi.product.dto.request.ProductRequestDto;
-import com.example.marketapi.product.dto.response.ProductPreservedResponseDto;
-import com.example.marketapi.product.dto.response.ProductPurchasedResponseDto;
+import com.example.marketapi.order.dto.response.OrderPreservedResponseDto;
+import com.example.marketapi.order.dto.response.OrderPurchasedResponseDto;
 import com.example.marketapi.product.dto.response.ProductResponseDto;
 
 import java.util.List;
