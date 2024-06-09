@@ -50,22 +50,4 @@ public class ProductServiceImpl implements ProductService{
 
         return ProductResponseDto.of(product);
     }
-
-    @Override
-    public List<ProductPurchasedResponseDto> getPurchasedProducts(String name) {
-        // 이름과 완료된 목록들 불러오기
-        List<Product> products = productRepository.findAllByNameAndPreserved(name, Preserved.FINISH)
-                .orElseThrow(() -> new NoSuchElementException());
-
-        return ProductPurchasedResponseDto.of(products);
-    }
-
-    @Override
-    public List<ProductPreservedResponseDto> getPreservedProducts(String name) {
-        // 이름과 완료된 목록들 불러오기
-        List<Product> products = productRepository.findAllByNameAndPreserved(name, Preserved.PRESERVED)
-                .orElseThrow(() -> new NoSuchElementException());
-
-        return ProductPreservedResponseDto.of(products);
-    }
 }

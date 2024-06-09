@@ -15,8 +15,4 @@ public interface ProductService {
     List<ProductResponseDto> getProductList();
 
     ProductResponseDto getProductDetails(Long id);
-
-    List<ProductPurchasedResponseDto> getPurchasedProducts(String name);
-
-    List<ProductPreservedResponseDto> getPreservedProducts(String name);
 }

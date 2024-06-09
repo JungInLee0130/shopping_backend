@@ -2,8 +2,6 @@ package com.example.marketapi.product.controller;
 
 import com.example.marketapi.member.domain.Role;
 import com.example.marketapi.product.dto.request.ProductRequestDto;
-import com.example.marketapi.product.dto.response.ProductPreservedResponseDto;
-import com.example.marketapi.product.dto.response.ProductPurchasedResponseDto;
 import com.example.marketapi.product.dto.response.ProductResponseDto;
 import com.example.marketapi.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -49,17 +47,5 @@ public class ProductController {
     @GetMapping("/details")
     public ResponseEntity<ProductResponseDto> getProductDetails(Long id) {
         return ResponseEntity.ok(productService.getProductDetails(id));
-    }
-
-    // 구매한 용품(구매자)
-    @GetMapping("/purchased")
-    public ResponseEntity<List<ProductPurchasedResponseDto>> getPurchasedProducts(String name) {
-        return ResponseEntity.ok(productService.getPurchasedProducts(name));
-    }
-
-    // 예약중인 용품 확인가능(구매자, 판매자 모두)
-    @GetMapping("/preserved")
-    public ResponseEntity<List<ProductPreservedResponseDto>> getPreservedProducts(String name) {
-        return ResponseEntity.ok(productService.getPreservedProducts(name));
     }
 }
