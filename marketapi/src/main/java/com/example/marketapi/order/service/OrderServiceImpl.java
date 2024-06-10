@@ -49,13 +49,14 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public List<OrderPurchasedResponseDto> getPurchasedProducts(String purchaserName) {
         // 구매자의 구매한 주문 불러오기
-        List<Order> orders = orderRepository.findAllByPurchaserNameAndPreserved(purchaserName, Preserved.FINISH)
+        List<Order> orders = orderRepository.findAllByPurchaserName(purchaserName)
                 .orElseThrow(() -> new NoSuchElementException());
 
         List<OrderPurchasedResponseDto> purchasedList = new ArrayList<>();
 
         for (Order order:orders) {
             Product product = productRepository.findById(order.getProductId())
+                    .filter(product1 -> product1.getPreserved().equals(Preserved.FINISH))
                     .orElseThrow(() -> new NoSuchElementException());
 
             purchasedList.add(OrderPurchasedResponseDto.of(product));
