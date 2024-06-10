@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long>, OrderCustomRepository {
+    Optional<Order> findByProductId(Long productId);
     Optional<Order> findBySellerNameOrPurchaserName(String name);
-    Optional<List<Order>> findAllBySellerNameOrPurchaserName(String name);
-    Optional<List<Order>> findAllByPurchaserNameAndPreserved(String purchaserName, Preserved finish);
+    Optional<List<Order>> findAllByPurchaserName(String purchaserName);
 }

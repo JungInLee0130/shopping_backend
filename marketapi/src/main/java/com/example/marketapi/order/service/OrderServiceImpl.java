@@ -39,8 +39,8 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public OrderResponseDto orderDetails(String name) {
-        Order order = orderRepository.findBySellerNameOrPurchaserName(name)
+    public OrderResponseDto orderDetails(Long productId) {
+        Order order = orderRepository.findByProductId(productId)
                 .orElseThrow(() -> new NoSuchElementException());
         return OrderResponseDto.of(order);
     }

@@ -33,8 +33,8 @@ public class OrderController {
 
     // 거래내역 확인 : 판매자, 구매자
     @GetMapping("/detail")
-    public OrderResponseDto orderDetails(String name) {
-        return orderService.orderDetails(name);
+    public OrderResponseDto orderDetails(Long productId) {
+        return orderService.orderDetails(productId);
     }
 
     // 구매한 용품(구매자)

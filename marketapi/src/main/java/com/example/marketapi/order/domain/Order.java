@@ -11,7 +11,7 @@ import lombok.*;
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "order_id")
     private Long id; // 주문번호
 
     @Column(name = "seller_name")
@@ -24,7 +24,7 @@ public class Order {
     private Long productId; // 제품번호
 
     @OneToOne
-    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "id")
     private Product product;
 
     @Builder

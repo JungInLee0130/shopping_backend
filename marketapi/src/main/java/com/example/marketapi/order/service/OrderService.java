@@ -11,7 +11,7 @@ import java.util.List;
 public interface OrderService {
     void orderProduct(OrderRequestDto orderRequestDto);
 
-    OrderResponseDto orderDetails(String name);
+    OrderResponseDto orderDetails(Long productId);
 
     List<OrderPurchasedResponseDto> getPurchasedProducts(String purchaserName);
 
