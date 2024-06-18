@@ -7,7 +7,7 @@ import lombok.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "ORDER")
+@Table(name = "ORDERS")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,11 +20,11 @@ public class Order {
     @Column(name = "purchaser_name")
     private String purchaserName; // 구매자
     
-    @Column(name = "product_id")
+    @Column(name = "p_id")
     private Long productId; // 제품번호
 
     @OneToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "product_id")
     private Product product;
 
     @Builder
