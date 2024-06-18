@@ -1,5 +1,7 @@
 package com.example.marketapi.product.service;
 
+import com.example.marketapi.global.exception.CustomException;
+import com.example.marketapi.global.exception.ErrorCode;
 import com.example.marketapi.product.domain.Preserved;
 import com.example.marketapi.product.domain.Product;
 import com.example.marketapi.product.dto.request.ProductRequestDto;
@@ -23,16 +25,15 @@ public class ProductServiceImpl implements ProductService{
     @Override
     public void addProduct(ProductRequestDto productRequestDto) {
         Product product = productRequestDto.toEntity();
-        // 제품 넣기
+
         productRepository.save(product);
     }
 
     @Override
     public void buyProduct(Long id) {
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException());
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND, "등록한 제품이 없습니다."));
 
-        // 예약중으로 변경
         product.updatePreserved(Preserved.PRESERVED);
     }
 
@@ -46,7 +47,7 @@ public class ProductServiceImpl implements ProductService{
     @Override
     public ProductResponseDto getProductDetails(Long id) {
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException());
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND, "해당 제품이 없습니다."));
 
         return ProductResponseDto.of(product);
     }

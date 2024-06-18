@@ -1,5 +1,7 @@
 package com.example.marketapi.order.service;
 
+import com.example.marketapi.global.exception.CustomException;
+import com.example.marketapi.global.exception.ErrorCode;
 import com.example.marketapi.order.domain.Order;
 import com.example.marketapi.order.dto.request.OrderRequestDto;
 import com.example.marketapi.order.dto.response.OrderPreservedResponseDto;
@@ -41,7 +43,7 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public OrderResponseDto orderDetails(Long productId) {
         Order order = orderRepository.findByProductId(productId)
-                .orElseThrow(() -> new NoSuchElementException());
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND, "거래 내역이 없습니다."));
         return OrderResponseDto.of(order);
     }
 
@@ -50,14 +52,14 @@ public class OrderServiceImpl implements OrderService{
     public List<OrderPurchasedResponseDto> getPurchasedProducts(String purchaserName) {
         // 구매자의 구매한 주문 불러오기
         List<Order> orders = orderRepository.findAllByPurchaserName(purchaserName)
-                .orElseThrow(() -> new NoSuchElementException());
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND, "구매한 주문 내역이 없습니다."));
 
         List<OrderPurchasedResponseDto> purchasedList = new ArrayList<>();
 
         for (Order order:orders) {
             Product product = productRepository.findById(order.getProductId())
                     .filter(product1 -> product1.getPreserved().equals(Preserved.FINISH))
-                    .orElseThrow(() -> new NoSuchElementException());
+                    .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND, "주문내역에 해당하는 제품이 없습니다."));
 
             purchasedList.add(OrderPurchasedResponseDto.of(product));
         }
@@ -78,11 +80,11 @@ public class OrderServiceImpl implements OrderService{
     public void approveSell(Long id) {
         // 현재 판매 승인할 주문을 찾습니다.
         Order order = orderRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException());
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND, "승인이 필요한 주문 내역이 없습니다."));
 
         // 올려논 상품을 불러옵니다.
         Product product = productRepository.findById(order.getProductId())
-                .orElseThrow(() -> new NoSuchElementException());
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND, "주문내역에 해당하는 제품이 없습니다."));
 
         // 올려논 상품의 판매상태를 완료시킵니다.
         product.updatePreserved(Preserved.FINISH);

@@ -1,5 +1,7 @@
 package com.example.marketapi.product.controller;
 
+import com.example.marketapi.global.exception.CustomException;
+import com.example.marketapi.global.exception.ErrorCode;
 import com.example.marketapi.member.domain.Role;
 import com.example.marketapi.product.dto.request.ProductRequestDto;
 import com.example.marketapi.product.dto.response.ProductResponseDto;
@@ -19,22 +21,20 @@ public class ProductController {
 
     // 제품 등록 : 회원
     @PostMapping("/add")
-    public ResponseEntity<Void> addProduct(Role role, ProductRequestDto productDto) {
-        if (role == Role.User) {
-            productService.addProduct(productDto);
-            return ResponseEntity.status(HttpStatus.OK).build();
-        }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); // GUEST일 경우
+    public ResponseEntity<Void> addProduct(@RequestParam Role role, @RequestBody ProductRequestDto productDto) {
+        if (role == Role.GUEST) throw new CustomException(ErrorCode.UNAUTHORIZED);
+
+        productService.addProduct(productDto);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     // 구매 : 회원
     @PutMapping("/buy")
-    public ResponseEntity<Void> buyProduct(Role role, Long id) {
-        if (role == Role.User) {
-            productService.buyProduct(id);
-            return ResponseEntity.status(HttpStatus.OK).build();
-        }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    public ResponseEntity<Void> buyProduct(@RequestParam Role role, @RequestParam Long id) {
+        if (role == Role.GUEST) throw new CustomException(ErrorCode.UNAUTHORIZED);
+
+        productService.buyProduct(id);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     // 목록 조회 : 비회원 가능
