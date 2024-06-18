@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "PRODUCT")
 public class Product {
     @Id
-    @Column(name = "product_id")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -23,6 +23,7 @@ public class Product {
     private String price; // 가격
 
     @Column(name = "preserved")
+    @Enumerated(EnumType.STRING)
     private Preserved preserved; // 예약상태
 
     @Column(name = "seller_name")

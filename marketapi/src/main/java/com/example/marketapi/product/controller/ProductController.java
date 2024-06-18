@@ -45,7 +45,7 @@ public class ProductController {
 
     // 상세 정보 : 비회원 가능
     @GetMapping("/details")
-    public ResponseEntity<ProductResponseDto> getProductDetails(Long id) {
+    public ResponseEntity<ProductResponseDto> getProductDetails(@RequestParam Long id) {
         return ResponseEntity.ok(productService.getProductDetails(id));
     }
 }

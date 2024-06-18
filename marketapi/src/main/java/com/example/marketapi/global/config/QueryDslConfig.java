@@ -1,4 +1,4 @@
-package com.example.marketapi.config;
+package com.example.marketapi.global.config;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;

@@ -17,6 +17,7 @@ public class Member {
     private String name;
 
     @Column(name = "role")
+    @Enumerated(EnumType.STRING)
     private Role role;
 
     @Builder
