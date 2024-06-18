@@ -8,7 +8,7 @@
 - feat : 기능 추가
 - update: 코드 수정, 문서 수정
 - fix: 오류 수정, 폴더 구조 수정
-- docs: readme 작성성
+- docs: readme 작성
 - chore: 사소한 수정
 
 ## 요구사항
@@ -131,9 +131,6 @@ public ResponseEntity<Void> buyProduct(Role role, Long id) {
     }
  ```
  
-
- ### 향후 보완할점
-- [x] ~~- 제품의 상세정보이기때문에 제품번호를 통해서 호출해야합니다. 제품 페이지에서 상세조회를 하기때문에 클라이언트는 제품ID를 가지고있을것입니다. 이를 파라미터로 받아서 전달하는 방법으로 변경하겠습니다.~~
 
 
  
