@@ -20,7 +20,8 @@ public class OrderPreservedResponseDto {
 
     public static OrderPreservedResponseDto of(Tuple tuple) {
         return OrderPreservedResponseDto.builder()
-                .productName(tuple.get(product.name))
+                .productName(tuple.get(
+                        product.name))
                 .price(tuple.get(product.price))
                 .sellerName(tuple.get(order.sellerName))
                 .build();

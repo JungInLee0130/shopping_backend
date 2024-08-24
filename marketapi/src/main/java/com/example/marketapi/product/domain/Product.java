@@ -1,6 +1,5 @@
 package com.example.marketapi.product.domain;
 
-import com.example.marketapi.global.util.BaseEntity;
 import com.example.marketapi.order.domain.Order;
 import jakarta.persistence.*;
 import lombok.AccessLevel;

@@ -1,5 +1,4 @@
 spring:
-  ### env ?? import
   config:
     import: env.yml
 
@@ -7,7 +6,6 @@ spring:
     name: ${APPLICATION_NAME}
 
 ---
-### jpa
 spring:
   jpa:
     database-platform: org.hibernate.dialect.MariaDBDialect
@@ -16,7 +14,6 @@ spring:
       ddl-auto: update
 
 ---
-###mariadb
 spring:
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver

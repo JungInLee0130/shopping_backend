@@ -1,6 +1,5 @@
 package com.example.marketapi.order.domain;
 
-import com.example.marketapi.global.util.BaseEntity;
 import com.example.marketapi.product.domain.Product;
 import jakarta.persistence.*;
 import lombok.*;
@@ -9,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "ORDERS")
-public class Order extends BaseEntity {
+public class Order{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id")
