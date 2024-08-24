@@ -7,6 +7,28 @@ spring:
 
 ---
 spring:
+  security:
+    oauth2:
+      client:
+        provider:
+          kakao:
+            authorization-uri: ${AUTHORIZATION_URI}
+            token-uri: ${TOKEN_URI}
+            user-info-uri: ${USER_INFO_URI}
+            user-name-attribute: id
+        registration:
+          kakao:
+            client-id: ${CLIENT_ID}
+            client-secret: ${CLIENT_SECRET}
+            client-authentication-method: client_secret_post
+            redirect-uri: ${REDIRECT_URI}
+            authorization-grant-type: authorization_code
+            client-name: kakao
+            scope:
+              - profile_nickname
+
+---
+spring:
   jpa:
     database-platform: org.hibernate.dialect.MariaDBDialect
     hibernate:
