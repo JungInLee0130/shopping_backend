@@ -1,5 +1,6 @@
 package com.example.marketapi.member.domain;
 
+import com.example.marketapi.global.util.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -7,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "MEMBERS")
-public class Member {
+public class Member extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -21,8 +22,7 @@ public class Member {
     private Role role;
 
     @Builder
-    private Member(Long id, String name, Role role) {
-        this.id = id;
+    private Member(String name, Role role) {
         this.name = name;
         this.role = role;
     }
