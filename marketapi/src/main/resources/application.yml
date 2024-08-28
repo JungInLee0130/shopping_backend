@@ -42,3 +42,21 @@ spring:
     url: ${MARIA_URL}
     username: ${MARIA_USERNAME}
     password: ${MARIA_PASSWORD}
+
+
+---
+#security logging level
+logging:
+  level:
+    org:
+      springframework:
+        security: trace
+      zercok: debug
+
+---
+logging:
+  level:
+    org:
+      springframework: info
+
+
