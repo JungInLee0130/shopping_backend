@@ -65,7 +65,7 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
 
         Object value = paramMap.get("properties");
 
-        LinkedHashMap propertiesMap = (LinkedHashMap) value;
+        Map propertiesMap = (LinkedHashMap) value;
 
         String nickname = (String) propertiesMap.get("nickname");
 
