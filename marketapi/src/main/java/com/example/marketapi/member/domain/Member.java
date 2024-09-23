@@ -11,19 +11,21 @@ import lombok.*;
 public class Member extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "member_id")
     private Long id;
-
-    @Column(name = "name")
+    private String email;
     private String name;
 
-    @Column(name = "role")
+    private String password;
+
     @Enumerated(EnumType.STRING)
     private Role role;
 
     @Builder
-    private Member(String name, Role role) {
+    public Member(String email, String name, String password, Role role) {
+        this.email = email;
         this.name = name;
+        this.password = password;
         this.role = role;
     }
 }

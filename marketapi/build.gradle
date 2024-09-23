@@ -38,6 +38,23 @@ dependencies {
 	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
 	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+=======
+	// validation
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation'
+
+>>>>>>> Stashed changes
+	// jwt
+	implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
+	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
+	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
+
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 	// junit5
 	testImplementation 'org.junit.jupiter:junit-jupiter:5.9.1'
 	testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.21.0'

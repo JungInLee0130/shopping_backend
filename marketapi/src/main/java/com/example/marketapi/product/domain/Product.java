@@ -34,7 +34,7 @@ public class Product {
     private Order order;
 
     @Builder
-    private Product(String name, String price, Preserved preserved) {
+    public Product(String name, String price, Preserved preserved) {
         this.name = name;
         this.price = price;
         this.preserved = preserved;

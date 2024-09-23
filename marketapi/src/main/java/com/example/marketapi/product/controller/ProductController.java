@@ -9,6 +9,7 @@ import com.example.marketapi.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,10 +21,10 @@ public class ProductController {
     private final ProductService productService;
 
     // 제품 등록 : 회원
+    @PreAuthorize("hasRole('USER')")
     @PostMapping("/add")
-    public ResponseEntity<Void> addProduct(@RequestParam Role role, @RequestBody ProductRequestDto productDto) {
-        if (role == Role.GUEST) throw new CustomException(ErrorCode.UNAUTHORIZED);
-
+    public ResponseEntity<Void> addProduct(@RequestBody ProductRequestDto productDto) {
+        //if (role == Role.GUEST) throw new CustomException(ErrorCode.UNAUTHORIZED);
         productService.addProduct(productDto);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
@@ -31,7 +32,7 @@ public class ProductController {
     // 구매 : 회원
     @PutMapping("/buy")
     public ResponseEntity<Void> buyProduct(@RequestParam Role role, @RequestParam Long id) {
-        if (role == Role.GUEST) throw new CustomException(ErrorCode.UNAUTHORIZED);
+        if (role == Role.ROLE_GUEST) throw new CustomException(ErrorCode.UNAUTHORIZED);
 
         productService.buyProduct(id);
         return ResponseEntity.status(HttpStatus.OK).build();

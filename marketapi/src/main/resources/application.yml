@@ -34,6 +34,10 @@ spring:
     hibernate:
       globally_quoted_identifiers: true
       ddl-auto: update
+    properties:
+      hibernate:
+        show_sql: true # sql 보기 옵션
+        format_sql: true # 예쁘게 포맷팅
 
 ---
 spring:
@@ -42,3 +46,25 @@ spring:
     url: ${MARIA_URL}
     username: ${MARIA_USERNAME}
     password: ${MARIA_PASSWORD}
+
+
+---
+#security logging level
+logging:
+  level:
+    org:
+      springframework:
+        security: trace
+      zercok: debug
+
+---
+logging:
+  level:
+    org:
+      springframework: info
+
+---
+jwt:
+  header: Authorization
+  secret: ${JWT_SECRET}
+  token-validity-in-seconds: 86400
