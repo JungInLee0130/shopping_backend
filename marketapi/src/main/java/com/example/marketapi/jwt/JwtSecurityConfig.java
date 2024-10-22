@@ -1,4 +1,4 @@
-package com.example.marketapi.global.util.jwt;
+package com.example.marketapi.jwt;
 
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

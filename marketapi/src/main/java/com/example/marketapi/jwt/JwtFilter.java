@@ -1,7 +1,6 @@
-package com.example.marketapi.global.util.jwt;
+package com.example.marketapi.jwt;
 
 import jakarta.servlet.*;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

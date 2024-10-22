@@ -1,4 +1,4 @@
-package com.example.marketapi.global.security;
+package com.example.marketapi.global.oauth2;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
@@ -16,7 +16,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 
-@Service
+// oauth2 전용
+//@Service
 @Slf4j
 public class OAuth2UserService extends DefaultOAuth2UserService {
     @Override

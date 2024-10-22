@@ -1,4 +1,4 @@
-package com.example.marketapi.global.util;
+package com.example.marketapi.util;
 
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;

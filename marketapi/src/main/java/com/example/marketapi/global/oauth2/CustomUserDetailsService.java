@@ -1,4 +1,4 @@
-package com.example.marketapi.global.security;
+package com.example.marketapi.global.oauth2;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,8 +10,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+// oauth2 전용
 @Slf4j
-@Service
+//@Service
 public class CustomUserDetailsService implements UserDetailsService {
 
     private PasswordEncoder passwordEncoder;

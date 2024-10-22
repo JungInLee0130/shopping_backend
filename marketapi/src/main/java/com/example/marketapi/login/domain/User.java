@@ -1,6 +1,5 @@
-package com.example.marketapi.user.entiity;
+package com.example.marketapi.login.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 

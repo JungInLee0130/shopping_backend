@@ -1,32 +1,23 @@
 package com.example.marketapi.global.security;
 
-import com.example.marketapi.global.util.jwt.JwtAccessDeniedHandler;
-import com.example.marketapi.global.util.jwt.JwtAuthenticationEntryPoint;
-import com.example.marketapi.global.util.jwt.JwtSecurityConfig;
-import com.example.marketapi.global.util.jwt.TokenProvider;
-import lombok.RequiredArgsConstructor;
+import com.example.marketapi.jwt.JwtAccessDeniedHandler;
+import com.example.marketapi.jwt.JwtAuthenticationEntryPoint;
+import com.example.marketapi.jwt.JwtSecurityConfig;
+import com.example.marketapi.jwt.TokenProvider;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.MediaType;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.filter.CorsFilter;
-
-import java.io.PrintWriter;
-import java.nio.charset.StandardCharsets;
 
 @Slf4j
 @Configuration
@@ -56,7 +47,7 @@ public class SecurityConfig{
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
+    /*@Bean
     public WebSecurityCustomizer webSecurityCustomizer(){
         log.info("-------------web configure----------------");
 
@@ -64,7 +55,7 @@ public class SecurityConfig{
         return (web -> web.ignoring()
                 .requestMatchers("/h2-console/**", "/favicon.ico")
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()));
-    }
+    }*/
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -100,7 +91,7 @@ public class SecurityConfig{
     }
 
 
-    @Bean
+    /*@Bean
     public AuthenticationSuccessHandler successHandler(){
         return ((request, response, authentication) -> {
             DefaultOAuth2User defaultOAuth2User = (DefaultOAuth2User) authentication.getPrincipal();
@@ -116,5 +107,5 @@ public class SecurityConfig{
             writer.println(body);
             writer.flush();
         });
-    }
+    }*/
 }

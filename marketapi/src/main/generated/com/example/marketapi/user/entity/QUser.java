@@ -1,7 +1,9 @@
-package com.example.marketapi.user.entiity;
+package com.example.marketapi.user.entity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
+import com.example.marketapi.login.domain.Authority;
+import com.example.marketapi.login.domain.User;
 import com.querydsl.core.types.dsl.*;
 
 import com.querydsl.core.types.PathMetadata;

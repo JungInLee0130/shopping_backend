@@ -1,4 +1,4 @@
-package com.example.marketapi.member.domain;
+package com.example.marketapi.post.domain;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -10,43 +10,41 @@ import com.querydsl.core.types.Path;
 
 
 /**
- * QMember is a Querydsl query type for Member
+ * QPost is a Querydsl query type for Post
  */
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
-public class QMember extends EntityPathBase<Member> {
+public class QPost extends EntityPathBase<Post> {
 
-    private static final long serialVersionUID = -655412111L;
+    private static final long serialVersionUID = 483198333L;
 
-    public static final QMember member = new QMember("member1");
+    public static final QPost post = new QPost("post");
 
     public final com.example.marketapi.util.QBaseTimeEntity _super = new com.example.marketapi.util.QBaseTimeEntity(this);
 
+    public final StringPath content = createString("content");
+
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
-
-    public final StringPath email = createString("email");
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
 
-    public final StringPath name = createString("name");
+    public final StringPath nickname = createString("nickname");
 
-    public final StringPath password = createString("password");
+    public final StringPath title = createString("title");
 
-    public final EnumPath<Role> role = createEnum("role", Role.class);
-
-    public QMember(String variable) {
-        super(Member.class, forVariable(variable));
+    public QPost(String variable) {
+        super(Post.class, forVariable(variable));
     }
 
-    public QMember(Path<? extends Member> path) {
+    public QPost(Path<? extends Post> path) {
         super(path.getType(), path.getMetadata());
     }
 
-    public QMember(PathMetadata metadata) {
-        super(Member.class, metadata);
+    public QPost(PathMetadata metadata) {
+        super(Post.class, metadata);
     }
 
 }

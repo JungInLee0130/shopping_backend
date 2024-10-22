@@ -1,6 +1,6 @@
 package com.example.marketapi.member.domain;
 
-import com.example.marketapi.global.util.BaseTimeEntity;
+import com.example.marketapi.util.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 

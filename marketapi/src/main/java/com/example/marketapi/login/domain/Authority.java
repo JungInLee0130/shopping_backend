@@ -1,4 +1,4 @@
-package com.example.marketapi.user.entiity;
+package com.example.marketapi.login.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
