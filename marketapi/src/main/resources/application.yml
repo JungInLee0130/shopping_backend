@@ -36,9 +36,9 @@ spring:
       ddl-auto: update
     properties:
       hibernate:
-        show_sql: true # sql 보기 옵션
-        format_sql: true # 예쁘게 포맷팅
-    defer-datasource-initialization: true
+        #show_sql: true # sql 보기 옵션
+        #format_sql: true # 예쁘게 포맷팅
+    #defer-datasource-initialization: true
   #sql:
     #init:
       #mode: always
@@ -53,6 +53,7 @@ spring:
 
 
 ---
+#로그
 #security logging level
 #logging:
 #  level:
@@ -62,10 +63,9 @@ spring:
 #      zercok: debug
 
 ---
-#logging:
-#  level:
-#    org:
-#      springframework: info
+logging:
+  level:
+    com.example.marketapi: debug
 
 ---
 jwt:

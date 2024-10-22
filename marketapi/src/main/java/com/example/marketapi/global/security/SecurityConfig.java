@@ -61,27 +61,27 @@ public class SecurityConfig{
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable);
         // jwt
-        http.addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
         // exceptionhandling
-        http.exceptionHandling(exceptionHandling -> exceptionHandling
-                .accessDeniedHandler(jwtAccessDeniedHandler)
-                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
-        );
+            .exceptionHandling(exceptionHandling -> exceptionHandling
+                    .accessDeniedHandler(jwtAccessDeniedHandler)
+                    .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+            )
 
         // security 적용 URI
-        http.authorizeHttpRequests(authorizeRequests -> authorizeRequests
+            .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                 .requestMatchers("/api/hello", "/api/authenticate", "/api/signup").permitAll()
-                .anyRequest().authenticated());
+                .anyRequest().authenticated())
 
         // 세션 사용 x
-        http.sessionManagement(sessionManagement -> sessionManagement
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+            .sessionManagement(sessionManagement -> sessionManagement
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
         // enable h2-console (근데 난 필요없을꺼같은데)
-        http.headers(headers -> headers
-                .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
+            .headers(headers -> headers
+                .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
 
-        http.with(new JwtSecurityConfig(tokenProvider), customizer -> {});
+            .with(new JwtSecurityConfig(tokenProvider), customizer -> {});
 
 
         // web mvc
