@@ -1,4 +1,4 @@
-package com.example.marketapi.global.oauth2;
+package com.example.marketapi.oauth2;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

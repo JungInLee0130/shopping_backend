@@ -1,15 +1,20 @@
 package com.example.marketapi.global.security;
 
+import com.example.marketapi.oauth2.OAuth2SuccessHandler;
+import com.example.marketapi.oauth2.OAuth2UserService;
 import com.example.marketapi.jwt.JwtAccessDeniedHandler;
 import com.example.marketapi.jwt.JwtAuthenticationEntryPoint;
 import com.example.marketapi.jwt.JwtSecurityConfig;
 import com.example.marketapi.jwt.TokenProvider;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -23,69 +28,57 @@ import org.springframework.web.filter.CorsFilter;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-//@RequiredArgsConstructor
+@RequiredArgsConstructor
 public class SecurityConfig{
-    //jwt
     private final TokenProvider tokenProvider;
     private final CorsFilter corsFilter;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
-    // oauth2
-    // private final OAuth2UserService oAuth2UserService;
-
-
-    public SecurityConfig(TokenProvider tokenProvider, CorsFilter corsFilter, JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint, JwtAccessDeniedHandler jwtAccessDeniedHandler) {
-        this.tokenProvider = tokenProvider;
-        this.corsFilter = corsFilter;
-        this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
-        this.jwtAccessDeniedHandler = jwtAccessDeniedHandler;
-    }
+    private final OAuth2UserService oAuth2UserService;
+    private final OAuth2SuccessHandler oAuth2SuccessHandler;
 
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
 
-    /*@Bean
+    // 시큐리티 적용하지 않을 리소스
+    @Bean
     public WebSecurityCustomizer webSecurityCustomizer(){
-        log.info("-------------web configure----------------");
-
-        // 정적 리소스 시큐리티 적용 x
         return (web -> web.ignoring()
-                .requestMatchers("/h2-console/**", "/favicon.ico")
+                .requestMatchers("/h2-console/**", "/favicon.ico", "/error")
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()));
-    }*/
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(AbstractHttpConfigurer::disable);
-        // jwt
-        http.addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
-        // exceptionhandling
-            .exceptionHandling(exceptionHandling -> exceptionHandling
+        http
+                .csrf(AbstractHttpConfigurer::disable)
+
+                .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
+
+                .exceptionHandling(exceptionHandling -> exceptionHandling
                     .accessDeniedHandler(jwtAccessDeniedHandler)
-                    .authenticationEntryPoint(jwtAuthenticationEntryPoint)
-            )
+                    .authenticationEntryPoint(jwtAuthenticationEntryPoint))
 
-        // security 적용 URI
-            .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                .requestMatchers("/api/hello", "/api/authenticate", "/api/signup").permitAll()
-                .anyRequest().authenticated())
+                .authorizeHttpRequests(authorizeRequests -> authorizeRequests
+                    .requestMatchers("/api/hello", "/api/authenticate", "/api/signup").permitAll()
+                    .anyRequest().authenticated())
 
-        // 세션 사용 x
-            .sessionManagement(sessionManagement -> sessionManagement
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-
-        // enable h2-console (근데 난 필요없을꺼같은데)
-            .headers(headers -> headers
-                .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
-
-            .with(new JwtSecurityConfig(tokenProvider), customizer -> {});
+                .oauth2Login(oauth -> oauth
+                        .userInfoEndpoint(c -> c.userService(oAuth2UserService))
+                        .successHandler(oAuth2SuccessHandler))
 
 
-        // web mvc
-        //http.formLogin().loginPage("/login");
+                .sessionManagement(sessionManagement -> sessionManagement
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+
+
+                .headers(headers -> headers
+                    .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
+
+                .with(new JwtSecurityConfig(tokenProvider), customizer -> {});
 
         return http.build();
     }

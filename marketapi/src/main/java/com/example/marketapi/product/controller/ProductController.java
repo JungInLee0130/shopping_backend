@@ -32,7 +32,7 @@ public class ProductController {
     // 구매 : 회원
     @PutMapping("/buy")
     public ResponseEntity<Void> buyProduct(@RequestParam Role role, @RequestParam Long id) {
-        if (role == Role.ROLE_GUEST) throw new CustomException(ErrorCode.UNAUTHORIZED);
+        if (role == Role.GUEST) throw new CustomException(ErrorCode.UNAUTHORIZED);
 
         productService.buyProduct(id);
         return ResponseEntity.status(HttpStatus.OK).build();

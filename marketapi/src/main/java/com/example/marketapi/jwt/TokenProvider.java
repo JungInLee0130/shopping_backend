@@ -1,13 +1,15 @@
 package com.example.marketapi.jwt;
 
+import com.example.marketapi.global.exception.CustomException;
+import com.example.marketapi.global.exception.ErrorCode;
+import com.example.marketapi.jwt.entity.Token;
+import com.example.marketapi.jwt.service.TokenService;
 import io.jsonwebtoken.*;
-import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SecurityException;
+import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -15,81 +17,102 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
-import java.security.Key;
+import javax.crypto.SecretKey;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
 @Component
-public class TokenProvider implements InitializingBean {
+@RequiredArgsConstructor
+public class TokenProvider {
 
-    private final Logger logger = LoggerFactory.getLogger(TokenProvider.class);
+    @Value("${jwt.key}")
+    private String key;
+    private SecretKey secretKey;
+    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30L;
+    private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60L * 24 * 7;
+    private static final String KEY_ROLE = "role";
+    private final TokenService tokenService;
 
-    private static final String AUTHORITIES_KEY = "auth";
-    private final String secret;
-    private final long tokenValidityInMilliseconds;
-    private Key key;
-
-    public TokenProvider(@Value("${jwt.secret}") String secret, @Value("${jwt.token-validity-in-seconds}") long tokenValidityInMilliseconds) {
-        this.secret = secret;
-        this.tokenValidityInMilliseconds = tokenValidityInMilliseconds * 1000;
+    @PostConstruct
+    private void setSecretKey(){
+        secretKey = Keys.hmacShaKeyFor(key.getBytes());
+    }
+    public String generateAccessToken(Authentication authentication){
+        return generateToken(authentication, ACCESS_TOKEN_EXPIRE_TIME);
     }
 
-    @Override
-    public void afterPropertiesSet(){
-        byte[] keyBytes = Decoders.BASE64.decode(secret);
-        this.key = Keys.hmacShaKeyFor(keyBytes);
+    public void generateRefreshToken(Authentication authentication, String accessToken){
+        String refreshToken = generateToken(authentication, REFRESH_TOKEN_EXPIRE_TIME);
+        tokenService.saveOrUpdate(authentication.getName(), refreshToken, accessToken);
     }
 
-    // 토큰 생성
-    public String createToken(Authentication authentication) {
+    private String generateToken(Authentication authentication, long expireTime){
+        Date now = new Date();
+        Date expiredDate = new Date(now.getTime() + expireTime);
+
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.joining(","));
-
-        long now = (new Date()).getTime();
-        Date validity = new Date(now + this.tokenValidityInMilliseconds);
+                .collect(Collectors.joining());
 
         return Jwts.builder()
                 .setSubject(authentication.getName())
-                .claim(AUTHORITIES_KEY, authorities)
-                .signWith(key, SignatureAlgorithm.HS512)
-                .setExpiration(validity)
+                .claim(KEY_ROLE, authorities)
+                .setIssuedAt(now)
+                .setExpiration(expiredDate)
+                .signWith(secretKey, SignatureAlgorithm.HS512)
                 .compact();
     }
 
-    public Authentication getAuthentication(String token) {
-        Claims claims = Jwts
-                .parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
+    public Authentication getAuthentication(String token){
+        Claims claims = parseClaims(token);
 
-        Collection<? extends GrantedAuthority> authorities = Arrays
-                .stream(claims.get(AUTHORITIES_KEY).toString().split(","))
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
+        List<SimpleGrantedAuthority> authorities = getAuthorities(claims);
 
         User principal = new User(claims.getSubject(), "", authorities);
-
         return new UsernamePasswordAuthenticationToken(principal, token, authorities);
     }
 
-    public boolean validateToken(String token) {
-        try {
-            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
-            return true;
-        } catch (SecurityException | MalformedJwtException e) {
-            logger.info("잘못된 JWT 서명입니다");
-        } catch (ExpiredJwtException e) {
-            logger.info("만료된 JWT 토큰입니다.");
-        } catch (UnsupportedJwtException e) {
-            logger.info("지원되지않는 JWT 토큰입니다.");
-        } catch (IllegalArgumentException e) {
-            logger.info("JWT 토큰이 잘못되었습니다.");
+    private List<SimpleGrantedAuthority> getAuthorities(Claims claims) {
+        return Collections.singletonList(new SimpleGrantedAuthority(
+                claims.get(KEY_ROLE).toString()));
+    }
+
+    public String reissueAccessToken(String accessToken){
+        if (StringUtils.hasText(accessToken)){
+            Token token = tokenService.findByAccessTokenOrThrow(accessToken);
+            String refreshToken = token.getRefreshToken();
+
+            if (validateToken(refreshToken)){
+                String reissueAccessToken = generateAccessToken(getAuthentication(refreshToken));
+                tokenService.updateToken(reissueAccessToken, token);
+                return reissueAccessToken;
+            }
         }
-        return false;
+        return null;
+    }
+
+    public boolean validateToken(String token) {
+        if (!StringUtils.hasText(token)) {
+            return false;
+        }
+
+        Claims claims = parseClaims(token);
+        return claims.getExpiration().after(new Date());
+    }
+
+    public Claims parseClaims(String token) {
+        try {
+            return Jwts.parser().verifyWith(secretKey).build()
+                    .parseSignedClaims(token).getPayload();
+        } catch (ExpiredJwtException e) {
+            return e.getClaims();
+        } catch (MalformedJwtException e) {
+            throw new CustomException(ErrorCode.BAD_REQUEST, "INVALID_TOKEN");
+        } catch (SecurityException e){
+            throw new CustomException(ErrorCode.BAD_REQUEST, "INVALID_JWT_SIGNATURE");
+        }
     }
 }
