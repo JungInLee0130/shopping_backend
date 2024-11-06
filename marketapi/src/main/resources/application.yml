@@ -59,7 +59,7 @@ spring:
 #  level:
 #    org:
 #      springframework:
-#        security: trace
+#        security: debug
 #      zercok: debug
 
 ---

@@ -1,11 +1,11 @@
 package com.example.marketapi.global.security;
 
-import com.example.marketapi.oauth2.OAuth2SuccessHandler;
-import com.example.marketapi.oauth2.OAuth2UserService;
-import com.example.marketapi.jwt.JwtAccessDeniedHandler;
-import com.example.marketapi.jwt.JwtAuthenticationEntryPoint;
-import com.example.marketapi.jwt.JwtSecurityConfig;
-import com.example.marketapi.jwt.TokenProvider;
+import com.example.marketapi.auth.handler.CustomAccessDeniedHandler;
+import com.example.marketapi.auth.handler.CustomAuthenticationEntryPoint;
+import com.example.marketapi.auth.handler.OAuth2FailureHandler;
+import com.example.marketapi.auth.handler.OAuth2SuccessHandler;
+import com.example.marketapi.auth.jwt.*;
+import com.example.marketapi.auth.service.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -17,26 +17,24 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer.FrameOptionsConfig;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.filter.CorsFilter;
 
-@Slf4j
+@RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-@RequiredArgsConstructor
 public class SecurityConfig{
-    private final TokenProvider tokenProvider;
-    private final CorsFilter corsFilter;
-    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
-    private final OAuth2UserService oAuth2UserService;
+    private final CustomOAuth2UserService oAuth2UserService;
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
+    private final TokenAuthenticationFilter tokenAuthenticationFilter;
 
     @Bean
     public PasswordEncoder passwordEncoder(){
@@ -47,58 +45,44 @@ public class SecurityConfig{
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer(){
         return (web -> web.ignoring()
-                .requestMatchers("/h2-console/**", "/favicon.ico", "/error")
-                .requestMatchers(PathRequest.toStaticResources().atCommonLocations()));
+                .requestMatchers("/favicon.ico", "/error"));
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
+                .cors(AbstractHttpConfigurer::disable)
+                .headers(headers -> headers
+                        .frameOptions(FrameOptionsConfig::disable).disable())
 
-                .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
+                .sessionManagement(sessionManagement -> sessionManagement
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
-                .exceptionHandling(exceptionHandling -> exceptionHandling
-                    .accessDeniedHandler(jwtAccessDeniedHandler)
-                    .authenticationEntryPoint(jwtAuthenticationEntryPoint))
-
-                .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                    .requestMatchers("/api/hello", "/api/authenticate", "/api/signup").permitAll()
-                    .anyRequest().authenticated())
+                .authorizeHttpRequests(request
+                        -> request.requestMatchers(
+                                new AntPathRequestMatcher("/api/hello"),
+                                new AntPathRequestMatcher("/api/auth/success"),
+                                new AntPathRequestMatcher("/api/signup")
+                        ).permitAll()
+                        .anyRequest().authenticated())
 
                 .oauth2Login(oauth -> oauth
                         .userInfoEndpoint(c -> c.userService(oAuth2UserService))
-                        .successHandler(oAuth2SuccessHandler))
+                        .successHandler(oAuth2SuccessHandler)
+                        .failureHandler(new OAuth2FailureHandler())
+                )
 
+                .addFilterBefore(tokenAuthenticationFilter,
+                        UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new TokenExceptionFilter(),
+                        tokenAuthenticationFilter.getClass())
 
-                .sessionManagement(sessionManagement -> sessionManagement
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-
-
-                .headers(headers -> headers
-                    .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
-
-                .with(new JwtSecurityConfig(tokenProvider), customizer -> {});
+                .exceptionHandling(exceptions -> exceptions
+                        .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+                        .accessDeniedHandler(new CustomAccessDeniedHandler())
+                );
 
         return http.build();
     }
-
-
-    /*@Bean
-    public AuthenticationSuccessHandler successHandler(){
-        return ((request, response, authentication) -> {
-            DefaultOAuth2User defaultOAuth2User = (DefaultOAuth2User) authentication.getPrincipal();
-
-            String id = defaultOAuth2User.getAttributes().get("id").toString();
-            String body = """
-                    {"id":"%s"}
-                    """.formatted(id);
-            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-            response.setCharacterEncoding(StandardCharsets.UTF_8.name());
-
-            PrintWriter writer = response.getWriter();
-            writer.println(body);
-            writer.flush();
-        });
-    }*/
 }
