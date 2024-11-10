@@ -1,6 +1,6 @@
 spring:
   config:
-    import: env.yml
+    import: env_production.yml
 
   application:
     name: ${APPLICATION_NAME}
@@ -59,7 +59,7 @@ spring:
 #  level:
 #    org:
 #      springframework:
-#        security: trace
+#        security: debug
 #      zercok: debug
 
 ---
@@ -72,3 +72,11 @@ jwt:
   header: Authorization
   secret: ${JWT_SECRET}
   token-validity-in-seconds: 86400
+  key: ${JWT_SECRET}
+
+---
+spring:
+  data:
+    redis:
+      port: 6379
+      host: localhost

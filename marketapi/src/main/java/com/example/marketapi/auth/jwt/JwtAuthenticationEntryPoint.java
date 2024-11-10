@@ -1,4 +1,4 @@
-package com.example.marketapi.jwt;
+package com.example.marketapi.auth.jwt;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
