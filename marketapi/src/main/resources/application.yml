@@ -78,5 +78,5 @@ jwt:
 spring:
   data:
     redis:
-      port: 6379
-      host: localhost
+      port: ${REDIS_PORT}
+      host: ${REDIS_HOST}
