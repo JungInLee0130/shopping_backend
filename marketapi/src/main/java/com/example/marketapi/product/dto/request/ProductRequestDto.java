@@ -14,11 +14,18 @@ public class ProductRequestDto {
     private Preserved preserved; // 제품상태
 
     @Builder
-    public Product toEntity(){
+    public ProductRequestDto(String name, String price, Preserved preserved) {
+        this.name = name;
+        this.price = price;
+        this.preserved = preserved;
+    }
+
+    @Builder
+    public static Product toEntity(ProductRequestDto requestDto){
         return Product.builder()
-                .name(name)
-                .price(price)
-                .preserved(preserved)
+                .name(requestDto.name)
+                .price(requestDto.price)
+                .preserved(requestDto.preserved)
                 .build();
     }
 }

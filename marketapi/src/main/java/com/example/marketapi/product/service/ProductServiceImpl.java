@@ -24,7 +24,7 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public void addProduct(ProductRequestDto productRequestDto) {
-        Product product = productRequestDto.toEntity();
+        Product product = productRequestDto.toEntity(productRequestDto);
 
         productRepository.save(product);
     }
