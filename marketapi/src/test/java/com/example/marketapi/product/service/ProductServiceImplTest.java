@@ -36,11 +36,7 @@ public class ProductServiceImplTest {
     @DisplayName("제품 등록: 회원만")
     void addProductTest(){
         ProductRequestDto productRequestDto
-                = ProductRequestDto.builder()
-                .name("김하성")
-                .price("5000")
-                .preserved(Preserved.SALE)
-                .build();
+                = new ProductRequestDto("김하성", "5000", Preserved.SALE);
 
         productService.addProduct(productRequestDto);
     }
