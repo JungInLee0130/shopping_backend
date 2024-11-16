@@ -24,7 +24,7 @@ public class QOrder extends EntityPathBase<Order> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final com.example.marketapi.product.domain.QProduct product;
+    public final com.example.marketapi.product.entity.QProduct product;
 
     public final NumberPath<Long> productId = createNumber("productId", Long.class);
 
@@ -50,7 +50,7 @@ public class QOrder extends EntityPathBase<Order> {
 
     public QOrder(Class<? extends Order> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.product = inits.isInitialized("product") ? new com.example.marketapi.product.domain.QProduct(forProperty("product"), inits.get("product")) : null;
+        this.product = inits.isInitialized("product") ? new com.example.marketapi.product.entity.QProduct(forProperty("product"), inits.get("product")) : null;
     }
 
 }

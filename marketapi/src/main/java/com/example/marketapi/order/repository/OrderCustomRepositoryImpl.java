@@ -1,16 +1,16 @@
 package com.example.marketapi.order.repository;
 
-import com.example.marketapi.product.domain.Preserved;
+import com.example.marketapi.product.domain.Reservation;
+import com.example.marketapi.product.entity.QProduct;
 import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.query.Order;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 import static com.example.marketapi.order.domain.QOrder.order;
-import static com.example.marketapi.product.domain.QProduct.product;
+import static com.example.marketapi.product.entity.QProduct.product;
 
 @Repository
 @RequiredArgsConstructor
@@ -29,7 +29,7 @@ public class OrderCustomRepositoryImpl implements OrderCustomRepository {
                 .innerJoin(order.product, product)
                 .where(
                         (order.purchaserName.eq(name).or(order.sellerName.eq(name)))
-                                .and(product.preserved.eq(Preserved.PRESERVED)))
+                                .and(product.reservation.eq(Reservation.RESERVED)))
                 .fetch();
 
         return fetch;

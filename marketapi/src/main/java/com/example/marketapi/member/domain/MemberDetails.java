@@ -1,6 +1,5 @@
-package com.example.marketapi.auth.domain;
+package com.example.marketapi.member.domain;
 
-import com.example.marketapi.member.domain.Member;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,9 +9,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 
-public record PrincipalDetails(Member member,
-                               Map<String, Object>attributes,
-                               String attributeKey) implements OAuth2User, UserDetails {
+public record MemberDetails(Member member,
+                            Map<String, Object>attributes,
+                            String attributeKey) implements OAuth2User, UserDetails {
 
     @Override
     public String getName() {
@@ -33,13 +32,24 @@ public record PrincipalDetails(Member member,
 
     @Override
     public String getPassword() {
-        return null;
+        return null; // oauth2라 없음
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return member.getName();
+    }
+    // 이름, 이메일, 프로필
+
+    public String getEmail(){
+        return member.getEmail();
     }
 
+    public String getProfile(){
+        return member.getProfile();
+    }
 
+    public Long getMemberId(){
+        return member.getId();
+    }
 }

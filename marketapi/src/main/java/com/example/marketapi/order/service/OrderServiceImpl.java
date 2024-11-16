@@ -8,9 +8,8 @@ import com.example.marketapi.order.dto.response.OrderPreservedResponseDto;
 import com.example.marketapi.order.dto.response.OrderPurchasedResponseDto;
 import com.example.marketapi.order.dto.response.OrderResponseDto;
 import com.example.marketapi.order.repository.OrderRepository;
-import com.example.marketapi.order.dto.request.OrderApprovalRequestDto;
-import com.example.marketapi.product.domain.Preserved;
-import com.example.marketapi.product.domain.Product;
+import com.example.marketapi.product.domain.Reservation;
+import com.example.marketapi.product.entity.Product;
 import com.example.marketapi.product.repository.ProductRepository;
 import com.querydsl.core.Tuple;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +17,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -58,7 +55,7 @@ public class OrderServiceImpl implements OrderService{
 
         for (Order order:orders) {
             Product product = productRepository.findById(order.getProductId())
-                    .filter(product1 -> product1.getPreserved().equals(Preserved.FINISH))
+                    .filter(product1 -> product1.getReservation().equals(Reservation.FINISH))
                     .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND, "주문내역에 해당하는 제품이 없습니다."));
 
             purchasedList.add(OrderPurchasedResponseDto.of(product));
@@ -87,6 +84,6 @@ public class OrderServiceImpl implements OrderService{
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND, "주문내역에 해당하는 제품이 없습니다."));
 
         // 올려논 상품의 판매상태를 완료시킵니다.
-        product.updatePreserved(Preserved.FINISH);
+        product.updatePreserved(Reservation.FINISH);
     }
 }

@@ -1,9 +1,6 @@
 package com.example.marketapi.order.dto.response;
 
-import com.example.marketapi.product.domain.Preserved;
-import com.example.marketapi.product.domain.Product;
 import com.querydsl.core.Tuple;
-import com.querydsl.core.annotations.QueryProjection;
 import lombok.Builder;
 
 import java.util.ArrayList;
