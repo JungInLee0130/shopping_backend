@@ -18,18 +18,15 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "seller_name")
-    // 다대일 : Product : 다 : member : 1
-    // 지연 로딩 : 실제 실행시점에 조회
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "seller_name", referencedColumnName = "member_id")
+    @JoinColumn(name = "seller_id")
     private Member seller; // 판매자 정보
 
     @Column(name = "product_name")
     private String name; // 제품명
 
     @Column(name = "product_price")
-    @Convert(converter = ProductConverter.class)
+    @Convert(converter = PriceConverter.class)
     private Price price; // 가격
 
     @Column(name = "quantity")
@@ -72,7 +69,7 @@ public class Product {
         this.id = id;
     }
 
-    public void purchase(){
+    public void purchase(){ // 도메인값 변경하는거니까 여기다 둔듯?
         this.quantity = Quantity.minus(this.quantity);
 
         if (quantity.value() == 0 && this.reservation == Reservation.SALE) {

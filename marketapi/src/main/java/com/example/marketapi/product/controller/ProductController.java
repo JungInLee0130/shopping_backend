@@ -11,12 +11,14 @@ import com.example.marketapi.product.dto.request.ProductRequestDto;
 import com.example.marketapi.product.dto.response.ProductResponseDto;
 import com.example.marketapi.product.service.ProductService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -31,20 +33,23 @@ public class ProductController {
     public ResponseEntity<Void> addProduct(
             @AuthenticationPrincipal MemberDetails memberDetails,
             @RequestBody @Valid ProductRequestDto request) {
+
         Price price = new Price(request.price());
         Quantity quantity = new Quantity(request.quantity());
         Long productId = productService.addProduct(request.name(), price, quantity, memberDetails.getMemberId());
 
-        return ResponseEntity.status(HttpStatus.OK).build();
+        // 해당 상품 등록 url로 이동.
+        return ResponseEntity.created(URI.create("/api/v1/product/add/" + productId)).build();
     }
 
     // 구매 : 회원
-    @PutMapping("/buy")
-    public ResponseEntity<Void> buyProduct(@RequestParam Role role, @RequestParam Long id) {
-        if (role == Role.GUEST) throw new CustomException(ErrorCode.UNAUTHORIZED);
+    @PostMapping("/buy")
+    public ResponseEntity<Void> buyProduct(@AuthenticationPrincipal MemberDetails memberDetails,
+                                           @RequestParam @Valid Long productId) {
 
-        productService.buyProduct(id);
+        productService.buyProduct(productId, memberDetails.getMemberId());
         return ResponseEntity.status(HttpStatus.OK).build();
+
     }
 
     // 목록 조회 : 비회원 가능

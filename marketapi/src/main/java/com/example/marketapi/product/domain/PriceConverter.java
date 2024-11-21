@@ -2,7 +2,7 @@ package com.example.marketapi.product.domain;
 
 import jakarta.persistence.AttributeConverter;
 
-public class ProductConverter implements AttributeConverter<Price, Integer> {
+public class PriceConverter implements AttributeConverter<Price, Integer> {
 
     @Override
     public Integer convertToDatabaseColumn(Price attribute) {
