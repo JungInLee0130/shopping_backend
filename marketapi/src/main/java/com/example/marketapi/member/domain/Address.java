@@ -12,10 +12,12 @@ import lombok.NoArgsConstructor;
 @Embeddable
 public class Address {
 
+    @Column(name = "road_address")
     private String roadAddress;
+    @Column(name = "address_detail")
     private String addressDetail;
 
-    @Column(length = 10)
+    @Column(name = "zip_code", length = 10)
     private String zipcode;
 
     @Builder

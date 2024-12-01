@@ -15,16 +15,16 @@ public class Member extends BaseTimeEntity {
     @Column(name = "member_id")
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @Column(nullable = false)
+    @Column(name = "profile")
     private String profile;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "member_key", nullable = false, unique = true)
     private String memberKey;
 
     @Embedded // @Embeddable 클래스를 가져옴. 이 내부에서 재정의를 안함. // 새로운 테이블로 재생성 x

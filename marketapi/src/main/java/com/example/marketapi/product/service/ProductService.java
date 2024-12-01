@@ -11,24 +11,31 @@ import com.example.marketapi.product.entity.Product;
 import com.example.marketapi.product.dto.request.ProductRequestDto;
 import com.example.marketapi.product.dto.response.ProductResponseDto;
 import com.example.marketapi.product.repository.ProductRepository;
+import com.example.marketapi.product.response.*;
 import com.example.marketapi.transact.entity.Transact;
+import com.example.marketapi.transact.entity.TransactLog;
+import com.example.marketapi.transact.model.TransactState;
+import com.example.marketapi.transact.repository.TransactLogRepository;
 import com.example.marketapi.transact.repository.TransactRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class ProductService {
 
     private final MemberRepository memberRepository;
     private final ProductRepository productRepository;
     private final TransactRepository transactRepository;
+    private final TransactLogRepository transactLogRepository;
 
     @Transactional
     public Long addProduct(String name, Price price, Quantity quantity, Long sellerId) {
@@ -80,6 +87,85 @@ public class ProductService {
         }
     }
 
+    public Page<ProductPreviewResponse> preview(Pageable pageable) {
+        return productRepository.retrieveProductsPreview(pageable);
+    }
+
+    public ProductDetailResponse detail(Long productId, Optional<Long> optMemberId){
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND));
+
+        if (optMemberId.isEmpty()) {
+            return new ProductDetailResponse(product, Collections.emptyList());
+        }
+
+        Long memberId = optMemberId.get();
+        List<BuyInfo> buyInfos = getBuyInfos(product, memberId);
+
+        return new ProductDetailResponse(product, buyInfos);
+    }
+
+    private List<BuyInfo> getBuyInfos(Product product, Long memberId) {
+        Long productId = product.getId();
+
+        if (product.getSeller().getId().equals(memberId)) {
+            return getAllBuyerInfo(productId);
+        }
+
+        return getAllTransactStateInfo(productId, memberId);
+    }
+
+    private List<BuyInfo> getAllBuyerInfo(Long productId) {
+        List<Transact> transacts = transactRepository.findByProductId(productId);
+
+        Map<Long, List<TransactState>> buyerTransactStates = getBuyerTransactStates(transacts);
+
+        return getBuyInfos(buyerTransactStates);
+    }
+
+    private LinkedHashMap<Long, List<TransactState>> getBuyerTransactStates(List<Transact> transacts) {
+        return transactLogRepository.findAllByTransactIn(transacts)
+                .stream()
+                .sorted(Comparator.comparing(TransactLog::getId).reversed())
+                .collect(Collectors.groupingBy(transactLog -> transactLog.getTransact().getBuyer().getId(),
+                        LinkedHashMap::new,
+                        Collectors.mapping(TransactLog::getTransactState, Collectors.toList())));
+    }
+
+    private static List<BuyInfo> getBuyInfos(Map<Long, List<TransactState>> buyerTransactStates){
+        return buyerTransactStates.entrySet()
+                .stream()
+                .map(entry -> new PurchaseBuyerResponse(entry.getKey(), entry.getValue()))
+                .map(BuyInfo.class::cast)
+                .toList();
+    }
+
+    private List<BuyInfo> getAllTransactStateInfo(Long productId, Long buyerId) {
+        return transactRepository.retrieveAllTransactState(buyerId, productId)
+                .stream()
+                .map(PurchaseDetailResponse::new)
+                .map(BuyInfo.class::cast)
+                .toList();
+    }
+
+    public Page<BuyProductResponse> buyProducts(Long buyerId, Pageable pageable) {
+        return productRepository.retrievePurchaseProducts(buyerId, pageable);
+    }
+
+    public Page<ReserveProductResponse> reserveProducts(Long sellerId, Pageable pageable) {
+        return productRepository.retrieveReserveProducts(sellerId, pageable);
+    }
+
+    public void updatePrice(Long productId, int price, Long sellerId) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND));
+
+        if (!product.getSeller().getId().equals(sellerId)) {
+            throw new CustomException(ErrorCode.BAD_REQUEST, "NOT_SELLER");
+        }
+
+        product.updatePrice(new Price(price));
+    }
 
     public List<ProductResponseDto> getProductList() {
         List<Product> products = productRepository.findAll();

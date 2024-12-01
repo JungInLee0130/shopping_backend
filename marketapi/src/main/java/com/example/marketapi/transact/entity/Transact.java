@@ -23,11 +23,11 @@ public class Transact extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "buyer_id")
-    Member buyer;
+    Member buyer; // 구매자 아이디
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
-    Product product;
+    Product product; // 제품 아이디
 
     @Convert(converter = PriceConverter.class)
     private Price price;

@@ -5,6 +5,7 @@ import com.example.marketapi.global.exception.ErrorCode;
 import com.example.marketapi.member.domain.Member;
 import com.example.marketapi.order.domain.Order;
 import com.example.marketapi.product.domain.*;
+import com.example.marketapi.util.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,20 +13,20 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "PRODUCTS")
-public class Product {
+public class Product extends BaseTimeEntity {
     @Id
     @Column(name = "product_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "seller_id")
+    @JoinColumn(name = "seller_id", referencedColumnName = "member_id")
     private Member seller; // 판매자 정보
 
-    @Column(name = "product_name")
+    @Column(name = "name")
     private String name; // 제품명
 
-    @Column(name = "product_price")
+    @Column(name = "price")
     @Convert(converter = PriceConverter.class)
     private Price price; // 가격
 
@@ -33,12 +34,12 @@ public class Product {
     @Convert(converter = QuantityConverter.class)
     private Quantity quantity;
 
-    @Column(name = "product_preserved")
+    @Column(name = "reservation_code")
     @Enumerated(EnumType.STRING)
     private Reservation reservation; // 예약상태
 
     @OneToOne(mappedBy = "product")
-    private Order order;
+    private Order order; // 이게 transact로 바뀐듯. 나중에 해볼때 order로 바꿔보자.
 
 
     @Builder

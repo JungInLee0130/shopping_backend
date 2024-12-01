@@ -2,6 +2,7 @@ package com.example.marketapi.transact.controller;
 
 import com.example.marketapi.member.domain.MemberDetails;
 import com.example.marketapi.transact.request.ApproveRequest;
+import com.example.marketapi.transact.request.ConfirmRequest;
 import com.example.marketapi.transact.service.TransactService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,9 +20,19 @@ public class TransactController {
     private final TransactService transactService;
 
     @PostMapping("/approve")
-    public ResponseEntity<Void> buyApprove(@RequestBody @Valid ApproveRequest request,
+    public ResponseEntity<Void> buyApprove(@RequestBody @Valid ApproveRequest approveRequest,
                                            @AuthenticationPrincipal MemberDetails memberDetails) {
-        //transactService.approve(approveRequest)
-        return null;
+        transactService.approve(approveRequest.productId(),
+                approveRequest.buyerId(), memberDetails.getMemberId());
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/confirm")
+    public ResponseEntity<Void> confirmBuy(@RequestBody @Valid ConfirmRequest confirmRequest,
+                                           @AuthenticationPrincipal MemberDetails memberDetails) {
+        transactService.confirm(confirmRequest.productId(), memberDetails.getMemberId());
+
+        return ResponseEntity.ok().build();
     }
 }

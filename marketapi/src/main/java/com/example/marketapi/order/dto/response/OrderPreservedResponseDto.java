@@ -1,5 +1,7 @@
 package com.example.marketapi.order.dto.response;
 
+import com.example.marketapi.product.domain.Price;
+import com.example.marketapi.product.entity.QProduct;
 import com.querydsl.core.Tuple;
 import lombok.Builder;
 
@@ -7,12 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.marketapi.order.domain.QOrder.order;
-import static com.example.marketapi.product.domain.QProduct.product;
+import static com.example.marketapi.product.entity.QProduct.product;
 
 @Builder
 public class OrderPreservedResponseDto {
     private String productName;
-    private String price;
+    private Price price;
     private String sellerName;
 
     public static OrderPreservedResponseDto of(Tuple tuple) {
