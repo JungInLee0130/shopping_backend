@@ -1,4 +1,4 @@
-package com.example.marketapi.auth.dto;
+package com.example.marketapi.auth.domain;
 
 import com.example.marketapi.global.exception.CustomException;
 import com.example.marketapi.global.exception.ErrorCode;

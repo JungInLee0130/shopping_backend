@@ -3,7 +3,7 @@ package com.example.marketapi.auth.service;
 import com.example.marketapi.member.entity.Member;
 import com.example.marketapi.member.repository.MemberRepository;
 import com.example.marketapi.member.domain.MemberDetails;
-import com.example.marketapi.auth.dto.OAuth2UserInfo;
+import com.example.marketapi.auth.domain.OAuth2UserInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;

@@ -6,6 +6,8 @@ import com.example.marketapi.util.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.UUID;
+
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
@@ -34,6 +36,9 @@ public class Member extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @Column(name = "member_uuid")
+    private String uuid;
+
     @Builder
     public Member(String email, String name, String profile, String memberKey, Role role) {
         this.email = email;
@@ -41,6 +46,7 @@ public class Member extends BaseTimeEntity {
         this.profile = profile;
         this.memberKey = memberKey;
         this.role = role;
+        this.uuid = UUID.randomUUID().toString();
     }
 
     public Member(Long id, String email, String name, String profile, Role role, Address address) {

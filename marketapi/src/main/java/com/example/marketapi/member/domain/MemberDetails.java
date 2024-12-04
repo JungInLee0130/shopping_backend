@@ -53,4 +53,8 @@ public record MemberDetails(Member member,
     public Long getMemberId(){
         return member.getId();
     }
+
+    public String getMemberUUID(){
+        return member.getUuid();
+    }
 }

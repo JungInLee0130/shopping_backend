@@ -1,4 +1,4 @@
-package com.example.marketapi.auth.dto;
+package com.example.marketapi.auth.response;
 
 import jakarta.validation.constraints.NotBlank;
 

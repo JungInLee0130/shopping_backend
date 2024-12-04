@@ -1,7 +1,7 @@
 package com.example.marketapi.auth.controller;
 
 import com.example.marketapi.auth.jwt.service.TokenService;
-import com.example.marketapi.auth.dto.LoginResponse;
+import com.example.marketapi.auth.response.LoginResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
