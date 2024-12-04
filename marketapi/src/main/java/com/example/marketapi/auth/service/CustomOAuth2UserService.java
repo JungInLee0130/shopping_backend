@@ -1,9 +1,9 @@
 package com.example.marketapi.auth.service;
 
-import com.example.marketapi.member.domain.Member;
+import com.example.marketapi.member.entity.Member;
 import com.example.marketapi.member.repository.MemberRepository;
-import com.example.marketapi.auth.domain.PrincipalDetails;
-import com.example.marketapi.auth.dto.OAuth2UserInfo;
+import com.example.marketapi.member.domain.MemberDetails;
+import com.example.marketapi.auth.domain.OAuth2UserInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -36,7 +36,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         Member member = getOrSave(oAuth2UserInfo);
 
-        return new PrincipalDetails(member, oauth2UserAttributes, usernameAttributeName);
+        return new MemberDetails(member, oauth2UserAttributes, usernameAttributeName);
     }
 
     private Member getOrSave(OAuth2UserInfo oAuth2UserInfo) {
