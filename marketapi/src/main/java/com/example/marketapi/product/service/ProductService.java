@@ -2,13 +2,11 @@ package com.example.marketapi.product.service;
 
 import com.example.marketapi.global.exception.CustomException;
 import com.example.marketapi.global.exception.ErrorCode;
-import com.example.marketapi.member.domain.Member;
+import com.example.marketapi.member.entity.Member;
 import com.example.marketapi.member.repository.MemberRepository;
 import com.example.marketapi.product.domain.Price;
 import com.example.marketapi.product.domain.Quantity;
-import com.example.marketapi.product.domain.Reservation;
 import com.example.marketapi.product.entity.Product;
-import com.example.marketapi.product.dto.request.ProductRequestDto;
 import com.example.marketapi.product.dto.response.ProductResponseDto;
 import com.example.marketapi.product.repository.ProductRepository;
 import com.example.marketapi.product.response.*;

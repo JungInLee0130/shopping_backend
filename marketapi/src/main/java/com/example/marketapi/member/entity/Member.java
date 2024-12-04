@@ -1,6 +1,7 @@
-package com.example.marketapi.member.domain;
+package com.example.marketapi.member.entity;
 
-import com.example.marketapi.member.dto.MemberEditRequest;
+import com.example.marketapi.member.domain.Role;
+import com.example.marketapi.member.request.MemberEditRequest;
 import com.example.marketapi.util.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -54,11 +55,11 @@ public class Member extends BaseTimeEntity {
         this.address = address;
     }
 
-    public void updateMember(MemberEditRequest request) {
-        this.name = request.name();
+    public void updateMember(MemberEditRequest memberEditRequest) {
+        this.name = memberEditRequest.name();
 
-        if (request.address() != null) {
-            this.address = request.address().toEntity();
+        if (memberEditRequest.addressRequest() != null) {
+            this.address = new Address(memberEditRequest.addressRequest());
         }
     }
 

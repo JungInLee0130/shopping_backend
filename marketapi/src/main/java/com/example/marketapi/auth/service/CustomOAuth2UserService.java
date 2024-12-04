@@ -1,6 +1,6 @@
 package com.example.marketapi.auth.service;
 
-import com.example.marketapi.member.domain.Member;
+import com.example.marketapi.member.entity.Member;
 import com.example.marketapi.member.repository.MemberRepository;
 import com.example.marketapi.member.domain.MemberDetails;
 import com.example.marketapi.auth.dto.OAuth2UserInfo;

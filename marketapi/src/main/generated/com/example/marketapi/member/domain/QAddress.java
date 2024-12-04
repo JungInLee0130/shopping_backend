@@ -2,6 +2,7 @@ package com.example.marketapi.member.domain;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
+import com.example.marketapi.member.entity.Address;
 import com.querydsl.core.types.dsl.*;
 
 import com.querydsl.core.types.PathMetadata;
@@ -17,7 +18,7 @@ public class QAddress extends BeanPath<Address> {
 
     private static final long serialVersionUID = -939512579L;
 
-    public static final QAddress address = new QAddress("address");
+    public static final QAddress address = new QAddress("addressRequest");
 
     public final StringPath addressDetail = createString("addressDetail");
 

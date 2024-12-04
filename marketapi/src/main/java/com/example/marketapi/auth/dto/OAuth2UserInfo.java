@@ -2,7 +2,7 @@ package com.example.marketapi.auth.dto;
 
 import com.example.marketapi.global.exception.CustomException;
 import com.example.marketapi.global.exception.ErrorCode;
-import com.example.marketapi.member.domain.Member;
+import com.example.marketapi.member.entity.Member;
 import com.example.marketapi.member.domain.Role;
 import lombok.Builder;
 import java.util.Map;

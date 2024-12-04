@@ -1,5 +1,6 @@
-package com.example.marketapi.member.domain;
+package com.example.marketapi.member.entity;
 
+import com.example.marketapi.member.request.AddressRequest;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
@@ -25,5 +26,11 @@ public class Address {
         this.roadAddress = roadAddress;
         this.addressDetail = addressDetail;
         this.zipcode = zipcode;
+    }
+
+    public Address(AddressRequest addressRequest) {
+        this.roadAddress = addressRequest.roadAddress();
+        this.addressDetail = addressRequest.addressDetail();
+        this.zipcode = addressRequest.zipCode();
     }
 }

@@ -1,29 +1,21 @@
 package com.example.marketapi.product.service;
 
-import com.example.marketapi.member.domain.Address;
-import com.example.marketapi.member.domain.Member;
+import com.example.marketapi.member.entity.Member;
 import com.example.marketapi.member.domain.MemberDetails;
 import com.example.marketapi.member.domain.Role;
 import com.example.marketapi.member.repository.MemberRepository;
 import com.example.marketapi.member.service.MemberService;
 import com.example.marketapi.product.domain.Price;
 import com.example.marketapi.product.domain.Quantity;
-import com.example.marketapi.product.domain.Reservation;
-import com.example.marketapi.product.dto.request.ProductRequestDto;
 import com.example.marketapi.product.entity.Product;
 import com.example.marketapi.product.repository.ProductRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.test.context.support.WithMockUser;
-
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.*;

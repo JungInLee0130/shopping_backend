@@ -2,6 +2,7 @@ package com.example.marketapi.member.domain;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
+import com.example.marketapi.member.entity.Member;
 import com.querydsl.core.types.dsl.*;
 
 import com.querydsl.core.types.PathMetadata;
@@ -62,7 +63,7 @@ public class QMember extends EntityPathBase<Member> {
 
     public QMember(Class<? extends Member> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.address = inits.isInitialized("address") ? new QAddress(forProperty("address")) : null;
+        this.address = inits.isInitialized("addressRequest") ? new QAddress(forProperty("addressRequest")) : null;
     }
 
 }

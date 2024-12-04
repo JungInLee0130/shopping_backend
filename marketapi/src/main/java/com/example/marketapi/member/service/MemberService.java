@@ -2,34 +2,35 @@ package com.example.marketapi.member.service;
 
 import com.example.marketapi.global.exception.CustomException;
 import com.example.marketapi.global.exception.ErrorCode;
-import com.example.marketapi.member.domain.Member;
-import com.example.marketapi.member.dto.MemberDto;
-import com.example.marketapi.member.dto.MemberEditRequest;
+import com.example.marketapi.member.entity.Member;
+import com.example.marketapi.member.response.MemberResponse;
+import com.example.marketapi.member.request.MemberEditRequest;
 import com.example.marketapi.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional(readOnly = true)
-@RequiredArgsConstructor
+
 @Service
+@RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class MemberService {
     private final MemberRepository memberRepository;
 
-    public MemberDto memberInfo(String memberKey) {
-        Member member = findByMemberKeyOrThrow(memberKey);
-        return MemberDto.fromEntity(member);
+    public MemberResponse memberInfo(Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND));
+
+        return new MemberResponse(member);
     }
 
     @Transactional
-    public MemberDto memberEdit(MemberEditRequest request, String memberKey) {
-        Member member = findByMemberKeyOrThrow(memberKey);
-        member.updateMember(request);
-        return MemberDto.fromEntity(member);
-    }
+    public MemberResponse memberEdit(MemberEditRequest memberEditRequest, Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND));
 
-    private Member findByMemberKeyOrThrow(String memberKey) {
-        return memberRepository.findByMemberKey(memberKey)
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND, "MEMBER_NOT_FOUND"));
+        member.updateMember(memberEditRequest);
+
+        return new MemberResponse(member);
     }
 }

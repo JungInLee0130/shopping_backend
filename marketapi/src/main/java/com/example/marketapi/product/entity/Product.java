@@ -2,7 +2,7 @@ package com.example.marketapi.product.entity;
 
 import com.example.marketapi.global.exception.CustomException;
 import com.example.marketapi.global.exception.ErrorCode;
-import com.example.marketapi.member.domain.Member;
+import com.example.marketapi.member.entity.Member;
 import com.example.marketapi.order.domain.Order;
 import com.example.marketapi.product.domain.*;
 import com.example.marketapi.util.BaseTimeEntity;
