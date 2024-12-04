@@ -45,7 +45,7 @@ public class ProductServiceTest {
 
     @BeforeEach
     void setUp(){
-        member = new Member(1L, "dl@naver.com", "김하성", "ㄹㄷㅈ", Role.USER);
+        member = new Member(1L, "dl@naver.com", "김하성", "ㄹㄷㅈ", Role.USER, null);
 
         name= "건담";
         price = new Price(5000);

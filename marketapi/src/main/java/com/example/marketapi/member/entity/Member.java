@@ -43,12 +43,16 @@ public class Member extends BaseTimeEntity {
         this.role = role;
     }
 
-    public Member(Long id, String email, String name, String profile, Role role) {
+    public Member(Long id, String email, String name, String profile, Role role, Address address) {
         this.id = id;
         this.email = email;
         this.name = name;
         this.profile = profile;
         this.role = role;
+
+        if (address != null) {
+            addAddress(address);
+        }
     }
 
     public void addAddress(Address address) {

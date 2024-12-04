@@ -22,7 +22,15 @@ public class QProduct extends EntityPathBase<Product> {
 
     public static final QProduct product = new QProduct("product");
 
+    public final com.example.marketapi.util.QBaseTimeEntity _super = new com.example.marketapi.util.QBaseTimeEntity(this);
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> createdDate = _super.createdDate;
+
     public final NumberPath<Long> id = createNumber("id", Long.class);
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> modifiedDate = _super.modifiedDate;
 
     public final StringPath name = createString("name");
 
@@ -34,7 +42,7 @@ public class QProduct extends EntityPathBase<Product> {
 
     public final EnumPath<com.example.marketapi.product.domain.Reservation> reservation = createEnum("reservation", com.example.marketapi.product.domain.Reservation.class);
 
-    public final com.example.marketapi.member.domain.QMember seller;
+    public final com.example.marketapi.member.entity.QMember seller;
 
     public QProduct(String variable) {
         this(Product.class, forVariable(variable), INITS);
@@ -55,7 +63,7 @@ public class QProduct extends EntityPathBase<Product> {
     public QProduct(Class<? extends Product> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.order = inits.isInitialized("order") ? new com.example.marketapi.order.domain.QOrder(forProperty("order"), inits.get("order")) : null;
-        this.seller = inits.isInitialized("seller") ? new com.example.marketapi.member.domain.QMember(forProperty("seller"), inits.get("seller")) : null;
+        this.seller = inits.isInitialized("seller") ? new com.example.marketapi.member.entity.QMember(forProperty("seller"), inits.get("seller")) : null;
     }
 
 }

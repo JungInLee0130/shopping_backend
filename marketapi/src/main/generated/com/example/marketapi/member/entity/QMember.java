@@ -1,8 +1,7 @@
-package com.example.marketapi.member.domain;
+package com.example.marketapi.member.entity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
-import com.example.marketapi.member.entity.Member;
 import com.querydsl.core.types.dsl.*;
 
 import com.querydsl.core.types.PathMetadata;
@@ -17,7 +16,7 @@ import com.querydsl.core.types.dsl.PathInits;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QMember extends EntityPathBase<Member> {
 
-    private static final long serialVersionUID = -655412111L;
+    private static final long serialVersionUID = 1240118386L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 
@@ -28,7 +27,7 @@ public class QMember extends EntityPathBase<Member> {
     public final QAddress address;
 
     //inherited
-    public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
+    public final DateTimePath<java.time.LocalDateTime> createdDate = _super.createdDate;
 
     public final StringPath email = createString("email");
 
@@ -37,13 +36,13 @@ public class QMember extends EntityPathBase<Member> {
     public final StringPath memberKey = createString("memberKey");
 
     //inherited
-    public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
+    public final DateTimePath<java.time.LocalDateTime> modifiedDate = _super.modifiedDate;
 
     public final StringPath name = createString("name");
 
     public final StringPath profile = createString("profile");
 
-    public final EnumPath<Role> role = createEnum("role", Role.class);
+    public final EnumPath<com.example.marketapi.member.domain.Role> role = createEnum("role", com.example.marketapi.member.domain.Role.class);
 
     public QMember(String variable) {
         this(Member.class, forVariable(variable), INITS);
@@ -63,7 +62,7 @@ public class QMember extends EntityPathBase<Member> {
 
     public QMember(Class<? extends Member> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.address = inits.isInitialized("addressRequest") ? new QAddress(forProperty("addressRequest")) : null;
+        this.address = inits.isInitialized("address") ? new QAddress(forProperty("address")) : null;
     }
 
 }

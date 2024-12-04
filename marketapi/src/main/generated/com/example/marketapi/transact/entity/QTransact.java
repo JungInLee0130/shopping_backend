@@ -24,15 +24,15 @@ public class QTransact extends EntityPathBase<Transact> {
 
     public final com.example.marketapi.util.QBaseTimeEntity _super = new com.example.marketapi.util.QBaseTimeEntity(this);
 
-    public final com.example.marketapi.member.domain.QMember buyer;
+    public final com.example.marketapi.member.entity.QMember buyer;
 
     //inherited
-    public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
+    public final DateTimePath<java.time.LocalDateTime> createdDate = _super.createdDate;
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     //inherited
-    public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
+    public final DateTimePath<java.time.LocalDateTime> modifiedDate = _super.modifiedDate;
 
     public final SimplePath<com.example.marketapi.product.domain.Price> price = createSimple("price", com.example.marketapi.product.domain.Price.class);
 
@@ -56,7 +56,7 @@ public class QTransact extends EntityPathBase<Transact> {
 
     public QTransact(Class<? extends Transact> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.buyer = inits.isInitialized("buyer") ? new com.example.marketapi.member.domain.QMember(forProperty("buyer"), inits.get("buyer")) : null;
+        this.buyer = inits.isInitialized("buyer") ? new com.example.marketapi.member.entity.QMember(forProperty("buyer"), inits.get("buyer")) : null;
         this.product = inits.isInitialized("product") ? new com.example.marketapi.product.entity.QProduct(forProperty("product"), inits.get("product")) : null;
     }
 
