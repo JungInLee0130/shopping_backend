@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class TransactController {
     private final TransactService transactService;
 
+    // 거래 승인
     @PostMapping("/approve")
     public ResponseEntity<Void> buyApprove(@RequestBody @Valid ApproveRequest approveRequest,
                                            @AuthenticationPrincipal MemberDetails memberDetails) {
@@ -28,6 +29,7 @@ public class TransactController {
         return ResponseEntity.ok().build();
     }
 
+    // 거래 완료
     @PostMapping("/confirm")
     public ResponseEntity<Void> confirmBuy(@RequestBody @Valid ConfirmRequest confirmRequest,
                                            @AuthenticationPrincipal MemberDetails memberDetails) {

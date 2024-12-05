@@ -37,6 +37,11 @@ public class TransactService {
 
         List<TransactState> transactStates = transactRepository.retrieveAllTransactState(transact.getId());
 
+        if (transactStates.contains(TransactState.APPROVE)) {
+            throw new CustomException(ErrorCode.BAD_REQUEST, "APPROVE_ALREADY");
+        }
+
+        transactLogRepository.save(new TransactLog(transact, TransactState.APPROVE));
     }
 
     @Transactional
