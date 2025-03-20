@@ -8,9 +8,18 @@ import com.example.marketapi.payment.response.PaymentProgressResponse;
 import com.example.marketapi.payment.service.PaymentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,12 +30,59 @@ public class PaymentController {
     // 결제 취소 : 결제 금액과 주문금액이 불일치하면 취소
     private final PaymentService paymentService;
 
-    // 결제 진행
+    @Value("${TOSS_API_KEY}")
+    private final String TOSS_API_KEY;
+
     @PostMapping
+    public String paymentProduce(){
+        URL url = null;
+        URLConnection connection = null;
+        StringBuilder responseBody = new StringBuilder();
+        try {
+            url = new URL("https://pay.toss.im/api/v2/payments");
+            connection = url.openConnection();
+            connection.addRequestProperty("Content-Type", "application/json");
+            connection.setDoOutput(true);
+            connection.setDoInput(true);
+
+            JSONObject jsonBody = new JSONObject();
+            jsonBody.put("orderNo", "1");
+            jsonBody.put("amount", 10000);
+            jsonBody.put("amountTaxFree", 0);
+            jsonBody.put("productDesc", "테스트 결제");
+            // api key
+            jsonBody.put("apiKey", TOSS_API_KEY);
+            //
+            jsonBody.put("autoExecute", true);
+            jsonBody.put("resultCallback", "https://pay.toss.im/payfront/demo/callback");
+            jsonBody.put("callbackVersion", "V2");
+            jsonBody.put("retUrl", "https://pay.toss.im/payfront/demo/completed?orderno=1");
+            jsonBody.put("retCancelUrl", "https://pay.toss.im/payfront/demo/cancel");
+
+            BufferedOutputStream bos = new BufferedOutputStream(connection.getOutputStream());
+
+            bos.write(jsonBody.toJSONString().getBytes(StandardCharsets.UTF_8));
+            bos.flush();
+            bos.close();
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
+            String line = null;
+            while ((line = br.readLine()) != null) {
+                responseBody.append(line);
+            }
+            br.close();
+
+        } catch (Exception e) {
+            responseBody.append(e);
+        }
+        return responseBody.toString();
+    }
+    // 결제 진행
+    /*@PostMapping
     public ResponseEntity<PaymentProgressResponse> paymentProgress(PaymentProgressRequest paymentProgressRequest){
         PaymentProgressResponse paymentProgressResponse = paymentService.progress(paymentProgressRequest);
         return ResponseEntity.ok(paymentProgressResponse);
-    }
+    }*/
 
     // 가상계좌
     /*@PostMapping("/account")
