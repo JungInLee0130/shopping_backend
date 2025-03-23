@@ -44,6 +44,8 @@ public class QMember extends EntityPathBase<Member> {
 
     public final EnumPath<com.example.marketapi.member.domain.Role> role = createEnum("role", com.example.marketapi.member.domain.Role.class);
 
+    public final StringPath uuid = createString("uuid");
+
     public QMember(String variable) {
         this(Member.class, forVariable(variable), INITS);
     }

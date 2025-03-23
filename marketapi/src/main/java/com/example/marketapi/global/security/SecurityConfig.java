@@ -65,7 +65,7 @@ public class SecurityConfig{
                                 new AntPathRequestMatcher("/api/auth/success"),
                                 new AntPathRequestMatcher("/api/signup")
                         ).permitAll()
-                        .anyRequest().authenticated())
+                        .anyRequest().permitAll())
 
                 .oauth2Login(oauth -> oauth
                         .userInfoEndpoint(c -> c.userService(oAuth2UserService))

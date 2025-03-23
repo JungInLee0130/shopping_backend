@@ -5,7 +5,7 @@ import com.example.marketapi.global.exception.CustomException;
 import com.example.marketapi.global.exception.ErrorCode;
 import com.example.marketapi.member.entity.Member;
 import com.example.marketapi.member.repository.MemberRepository;
-import com.example.marketapi.notification.repository.NotificationRepository;
+import com.example.marketapi.notification.repository.EmitterRepository;
 import com.example.marketapi.notification.response.NotificationInfo;
 import com.example.marketapi.notification.response.NotificationResponse;
 import jakarta.servlet.http.HttpServletResponse;
@@ -24,7 +24,7 @@ public class NotificationService {
     private static final Long DEFAULT_TIMEOUT = 60L * 60 * 1000; // 1시간
 
     private final MemberRepository memberRepository;
-    private final NotificationRepository notificationRepository;
+    private final EmitterRepository emitterRepository;
 
     public SseEmitter subscribe(String lastEventId, String memberUUID, HttpServletResponse response) {
         String id = memberUUID + "_" + System.currentTimeMillis(); // 시간과 합쳐서 고유 id 생성
@@ -36,7 +36,7 @@ public class NotificationService {
 
         // lastEventId가 있으면 해당하는 id로 만든 emitter 다꺼내서 sse 다보냄.
         if (!lastEventId.isEmpty()) {
-            Map<String, NotificationInfo> events = notificationRepository.findAllEventCacheStartWithId(id);
+            Map<String, NotificationInfo> events = emitterRepository.findAllEventCacheStartWithId(id);
             events.entrySet()
                     .stream()
                     .filter(entry -> lastEventId.compareTo(entry.getKey()) < 0)
@@ -48,10 +48,10 @@ public class NotificationService {
 
     private SseEmitter createEmitter(String id){
         SseEmitter emitter = new SseEmitter(DEFAULT_TIMEOUT);
-        notificationRepository.save(id, emitter);
+        emitterRepository.save(id, emitter);
 
-        emitter.onCompletion(() -> notificationRepository.deleteById(id));
-        emitter.onTimeout(() -> notificationRepository.deleteById(id));
+        emitter.onCompletion(() -> emitterRepository.deleteById(id));
+        emitter.onTimeout(() -> emitterRepository.deleteById(id));
 
         return emitter;
     }
@@ -63,7 +63,7 @@ public class NotificationService {
                     .name(name)
                     .data(data));
         } catch (IOException exception) {
-            notificationRepository.deleteById(id);
+            emitterRepository.deleteById(id);
             sseEmitter.completeWithError(exception);
         }
 
@@ -86,12 +86,12 @@ public class NotificationService {
         for (String subscriberUUID: subscribers) {
             if (subscriberUUID.equals(publisherUUID)) continue;
 
-            Map<String, SseEmitter> emitters = notificationRepository
+            Map<String, SseEmitter> emitters = emitterRepository
                     .findAllEmittersStartWithId(subscriberUUID);
 
             emitters.forEach(
                     (key,emitter) -> {
-                        notificationRepository.saveEventCache(key,notificationInfo);
+                        emitterRepository.saveEventCache(key,notificationInfo);
 
                         sendToClient(emitter, key, "Connection", notificationInfo);
 
