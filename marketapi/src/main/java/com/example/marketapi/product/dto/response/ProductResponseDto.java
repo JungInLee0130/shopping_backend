@@ -1,7 +1,8 @@
 package com.example.marketapi.product.dto.response;
 
-import com.example.marketapi.product.domain.Preserved;
-import com.example.marketapi.product.domain.Product;
+import com.example.marketapi.product.domain.Price;
+import com.example.marketapi.product.domain.Reservation;
+import com.example.marketapi.product.entity.Product;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -12,14 +13,14 @@ import java.util.List;
 @Builder
 public class ProductResponseDto {
     private String name;
-    private String price;
-    private Preserved preserved;
+    private int price;
+    private Reservation reservation;
 
     public static ProductResponseDto of(Product product){
         return ProductResponseDto.builder()
                 .name(product.getName())
-                .price(product.getPrice())
-                .preserved(product.getPreserved())
+                .price(product.getPrice().value())
+                .reservation(product.getReservation())
                 .build();
 
     }

@@ -1,22 +1,24 @@
 package com.example.marketapi.product.dto.request;
 
-import com.example.marketapi.product.domain.Preserved;
-import com.example.marketapi.product.domain.Product;
+import com.example.marketapi.product.domain.Price;
+import com.example.marketapi.product.domain.Quantity;
+import com.example.marketapi.product.entity.Product;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
-import lombok.Getter;
 
-@Getter
-@Builder
-public class ProductRequestDto {
-    private String name; // 제품 등록자
-    private String price; // 가격
-    private Preserved preserved; // 제품상태
 
-    public Product toEntity(){
+public record ProductRequestDto (@NotBlank String name,
+                                 @Min(0) int price,
+
+                                 @Min(1) int quantity) {
+
+    @Builder
+    public static Product toEntity(ProductRequestDto requestDto){
         return Product.builder()
-                .name(name)
-                .price(price)
-                .preserved(preserved)
+                .name(requestDto.name)
+                .price(new Price(requestDto.price))
+                .quantity(new Quantity(requestDto.quantity))
                 .build();
     }
 }

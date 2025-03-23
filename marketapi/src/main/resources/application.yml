@@ -1,6 +1,6 @@
 spring:
   config:
-    import: env.yml
+    import: env_local.yml
 
   application:
     name: ${APPLICATION_NAME}
@@ -34,6 +34,14 @@ spring:
     hibernate:
       globally_quoted_identifiers: true
       ddl-auto: update
+    properties:
+      hibernate:
+        #show_sql: true # sql 보기 옵션
+        #format_sql: true # 예쁘게 포맷팅
+    #defer-datasource-initialization: true
+  #sql:
+    #init:
+      #mode: always
 
 ---
 spring:
@@ -42,3 +50,33 @@ spring:
     url: ${MARIA_URL}
     username: ${MARIA_USERNAME}
     password: ${MARIA_PASSWORD}
+
+
+---
+#로그
+#security logging level
+#logging:
+#  level:
+#    org:
+#      springframework:
+#        security: debug
+#      zercok: debug
+
+---
+logging:
+  level:
+    com.example.marketapi: debug
+
+---
+jwt:
+  header: Authorization
+  secret: ${JWT_SECRET}
+  token-validity-in-seconds: 86400
+  key: ${JWT_SECRET}
+
+---
+spring:
+  data:
+    redis:
+      port: ${REDIS_PORT}
+      host: ${REDIS_HOST}
