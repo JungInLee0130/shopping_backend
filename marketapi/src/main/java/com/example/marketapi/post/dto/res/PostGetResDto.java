@@ -1,6 +1,6 @@
 package com.example.marketapi.post.dto.res;
 
-import com.example.marketapi.post.domain.Post;
+import com.example.marketapi.post.entity.Post;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -17,6 +17,6 @@ public class PostGetResDto {
         this.id = entity.getId();
         this.title = entity.getTitle();
         this.content = entity.getContent();
-        this.nickname = entity.getNickname();
+        this.nickname = entity.getName();
     }
 }

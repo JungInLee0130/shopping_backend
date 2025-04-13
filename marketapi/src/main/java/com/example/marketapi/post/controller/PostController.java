@@ -1,7 +1,7 @@
 package com.example.marketapi.post.controller;
 
 
-import com.example.marketapi.post.domain.Post;
+import com.example.marketapi.post.entity.Post;
 import com.example.marketapi.post.dto.req.PostCreateReqDto;
 import com.example.marketapi.post.dto.req.PostUpdateReqDto;
 import com.example.marketapi.post.dto.res.PostGetResDto;

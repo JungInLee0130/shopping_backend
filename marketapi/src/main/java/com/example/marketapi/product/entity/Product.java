@@ -5,6 +5,7 @@ import com.example.marketapi.global.exception.ErrorCode;
 import com.example.marketapi.member.entity.Member;
 import com.example.marketapi.order.domain.Order;
 import com.example.marketapi.product.domain.*;
+import com.example.marketapi.transact.entity.Transact;
 import com.example.marketapi.util.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -20,8 +21,8 @@ public class Product extends BaseTimeEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "seller_id", referencedColumnName = "member_id")
-    private Member seller; // 판매자 정보
+    @JoinColumn(name = "member_id")
+    private Member member; // 판매자 정보
 
     @Column(name = "name")
     private String name; // 제품명
@@ -32,29 +33,29 @@ public class Product extends BaseTimeEntity {
 
     @Column(name = "quantity")
     @Convert(converter = QuantityConverter.class)
-    private Quantity quantity;
+    private Quantity quantity; // 수량
 
     @Column(name = "reservation_code")
     @Enumerated(EnumType.STRING)
     private Reservation reservation; // 예약상태
 
-    @OneToOne(mappedBy = "product")
-    private Order order; // 이게 transact로 바뀐듯. 나중에 해볼때 order로 바꿔보자.
+    @Column(name = "product_image")
+    private String product_image;
 
 
     @Builder
-    public Product(Member seller, String name, Price price, Quantity quantity) {
+    public Product(Member member, String name, Price price, Quantity quantity) {
         validInitQuantity(quantity); // product 생성시 validation 체크
-        this.seller = seller;
+        this.member = member;
         this.name = name;
         this.price = price;
         this.quantity = quantity;
         this.reservation = Reservation.SALE;
     }
 
-    public Product(Long id, Member seller, String name, Price price, Quantity quantity) {
+    public Product(Long id, Member member, String name, Price price, Quantity quantity) {
         this.id = id;
-        this.seller = seller;
+        this.member = member;
         this.name = name;
         this.price = price;
         this.quantity = quantity;

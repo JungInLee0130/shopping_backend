@@ -36,6 +36,9 @@ import java.util.Optional;
 public class ProductController {
     private final ProductService productService;
 
+    // 제품 등록 : 제품 이미지 업로드(S3)
+    // 제품 주문
+
     // 제품 등록 : 회원
     @RoleUser
     @PostMapping
@@ -50,6 +53,8 @@ public class ProductController {
         // 해당 상품 등록 url로 이동.
         return ResponseEntity.created(URI.create("/api/v1/product/add/" + productId)).build();
     }
+
+
 
     // 구매 : 회원
     @PostMapping("/buy")

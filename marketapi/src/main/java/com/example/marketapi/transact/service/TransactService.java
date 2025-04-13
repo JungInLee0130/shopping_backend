@@ -28,7 +28,7 @@ public class TransactService {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND, "제품을 찾을수없습니다."));
 
-        if (!product.getSeller().getId().equals(sellerId)) {
+        if (!product.getMember().getId().equals(sellerId)) {
             throw new CustomException(ErrorCode.BAD_REQUEST, "물건의 판매자와 판매자가 일치하지않습니다.");
         }
 
