@@ -20,7 +20,7 @@ public class Post extends BaseTimeEntity {
     @Column(name = "post_content")
     private String content; // 작성내용
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 

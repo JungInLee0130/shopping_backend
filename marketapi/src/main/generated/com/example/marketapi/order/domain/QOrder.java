@@ -2,6 +2,7 @@ package com.example.marketapi.order.domain;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
+import com.example.marketapi.order.entity.Order;
 import com.querydsl.core.types.dsl.*;
 
 import com.querydsl.core.types.PathMetadata;

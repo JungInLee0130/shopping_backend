@@ -22,7 +22,7 @@ public class Notification extends BaseTimeEntity {
     @Column(name = "notification_content")
     private String content;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     Member member;
 
