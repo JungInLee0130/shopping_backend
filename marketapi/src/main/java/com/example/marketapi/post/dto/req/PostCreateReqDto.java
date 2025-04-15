@@ -1,6 +1,6 @@
 package com.example.marketapi.post.dto.req;
 
-import com.example.marketapi.post.domain.Post;
+import com.example.marketapi.post.entity.Post;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

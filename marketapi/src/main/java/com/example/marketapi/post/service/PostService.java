@@ -3,7 +3,7 @@ package com.example.marketapi.post.service;
 import com.example.marketapi.global.exception.CustomException;
 import com.example.marketapi.global.exception.ErrorCode;
 import com.example.marketapi.member.repository.MemberRepository;
-import com.example.marketapi.post.domain.Post;
+import com.example.marketapi.post.entity.Post;
 import com.example.marketapi.post.dto.req.PostCreateReqDto;
 import com.example.marketapi.post.dto.req.PostUpdateReqDto;
 import com.example.marketapi.post.dto.res.PostGetResDto;

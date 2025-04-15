@@ -24,6 +24,7 @@ public class Transact extends BaseTimeEntity {
     @JoinColumn(name = "buyer_id")
     Member buyer; // 구매자 아이디
 
+    // 다대일 단방향 매핑
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     Product product; // 제품 아이디

@@ -35,6 +35,8 @@ public class ProductService {
     private final TransactRepository transactRepository;
     private final TransactLogRepository transactLogRepository;
 
+
+
     @Transactional
     public Long addProduct(String name, Price price, Quantity quantity, Long sellerId) {
         Member seller = memberRepository.getReferenceById(sellerId);

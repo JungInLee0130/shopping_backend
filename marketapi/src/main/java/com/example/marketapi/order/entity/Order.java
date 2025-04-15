@@ -1,4 +1,4 @@
-package com.example.marketapi.order.domain;
+package com.example.marketapi.order.entity;
 
 import com.example.marketapi.product.entity.Product;
 import jakarta.persistence.*;
@@ -23,7 +23,7 @@ public class Order{
     @Column(name = "p_id")
     private Long productId; // 제품번호
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private Product product;
 

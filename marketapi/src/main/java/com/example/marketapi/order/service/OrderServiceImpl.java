@@ -2,7 +2,7 @@ package com.example.marketapi.order.service;
 
 import com.example.marketapi.global.exception.CustomException;
 import com.example.marketapi.global.exception.ErrorCode;
-import com.example.marketapi.order.domain.Order;
+import com.example.marketapi.order.entity.Order;
 import com.example.marketapi.order.dto.request.OrderRequestDto;
 import com.example.marketapi.order.dto.response.OrderPreservedResponseDto;
 import com.example.marketapi.order.dto.response.OrderPurchasedResponseDto;

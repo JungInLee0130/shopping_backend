@@ -1,6 +1,6 @@
 package com.example.marketapi.order.dto.response;
 
-import com.example.marketapi.order.domain.Order;
+import com.example.marketapi.order.entity.Order;
 import lombok.Builder;
 import lombok.Getter;
 
