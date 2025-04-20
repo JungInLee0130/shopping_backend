@@ -11,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.BufferedOutputStream;
@@ -30,8 +29,8 @@ public class PaymentController {
     // 결제 취소 : 결제 금액과 주문금액이 불일치하면 취소
     private final PaymentService paymentService;
 
-    @Value("${TOSS_API_KEY}")
-    private final String TOSS_API_KEY;
+    @Value("${toss.api.key}")
+    private String TOSS_API_KEY;
 
     @PostMapping
     public String paymentProduce(){

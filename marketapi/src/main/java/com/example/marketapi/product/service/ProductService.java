@@ -178,6 +178,6 @@ public class ProductService {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND, "해당 제품이 없습니다."));
 
-        return ProductResponseDto.of(product);
+        return new ProductResponseDto(product);
     }
 }

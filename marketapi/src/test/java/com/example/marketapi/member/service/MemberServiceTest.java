@@ -9,12 +9,10 @@ import com.example.marketapi.member.request.AddressRequest;
 import com.example.marketapi.member.request.MemberEditRequest;
 import com.example.marketapi.member.response.AddressInfo;
 import com.example.marketapi.member.response.MemberResponse;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -43,7 +41,7 @@ public class MemberServiceTest {
 
     @BeforeEach
     void setup(){
-        member = new Member("1L", "dl@naver.com", "김하성", "프로필주소", Role.USER);
+        member = new Member("1L", "dl@naver.com", "김하성", Role.USER);
         id = 1L;
     }
 

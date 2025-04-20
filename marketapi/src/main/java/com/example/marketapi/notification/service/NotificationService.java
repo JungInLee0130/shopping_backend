@@ -75,10 +75,10 @@ public class NotificationService {
         subscribers.add("asdf-asdf");
         subscribers.add("asdf-asdf2");
 
-        Member member = memberRepository.findByUuid(commentNotifyRequest.publisherUUID())
+        Member member = memberRepository.findByMemberKey(commentNotifyRequest.publisherUUID())
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND));
 
-        String publisherUUID = member.getUuid();
+        String publisherUUID = member.getMemberKey();
         String publisherName = member.getName();
 
         NotificationInfo notificationInfo = NotificationResponse.createAlarmComment(publisherName);

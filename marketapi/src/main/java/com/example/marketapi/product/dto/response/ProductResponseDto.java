@@ -9,27 +9,25 @@ import lombok.Getter;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Builder
-public class ProductResponseDto {
-    private String name;
-    private int price;
-    private Reservation reservation;
-
-    public static ProductResponseDto of(Product product){
-        return ProductResponseDto.builder()
-                .name(product.getName())
-                .price(product.getPrice().value())
-                .reservation(product.getReservation())
-                .build();
-
+public record ProductResponseDto(String sellerName,
+                                 String productName,
+                                 int price,
+                                 int quantity,
+                                 String reservation) {
+    public ProductResponseDto (Product product){
+        this(product.getSeller().getName(),
+                product.getName(),
+                product.getPrice().value(),
+                product.getQuantity().value(),
+                product.getReservation().name());
     }
+    public static List<ProductResponseDto> of (List<Product> products){
+        List<ProductResponseDto> productDtoLists = new ArrayList<>();
 
-    public static List<ProductResponseDto> of(List<Product> products){
-        List<ProductResponseDto> list = new ArrayList<>();
-        for (Product product : products) {
-            list.add(ProductResponseDto.of(product));
+        for (Product product:products) {
+            productDtoLists.add(new ProductResponseDto(product));
         }
-        return list;
+
+        return productDtoLists;
     }
 }

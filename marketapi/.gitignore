@@ -39,3 +39,6 @@ out/
 ###
 env_local.yml
 env_production.yml
+
+###
+data.sql

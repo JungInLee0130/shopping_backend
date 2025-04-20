@@ -33,15 +33,17 @@ spring:
     database-platform: org.hibernate.dialect.MariaDBDialect
     hibernate:
       globally_quoted_identifiers: true
-      ddl-auto: update
+      ddl-auto: create # 로컬환경 설정 : create, 운영환경 : validate로 바꾸기
     properties:
       hibernate:
-        #show_sql: true # sql 보기 옵션
-        #format_sql: true # 예쁘게 포맷팅
-    #defer-datasource-initialization: true
+        show_sql: true # sql 보기 옵션
+        format_sql: true # 예쁘게 포맷팅
+        highlight_sql: true # ANSI 코드에 색을 나타낸다
+        use_sql_comments: true # SQL 내부에 /* */ 주석 추가
+      #defer-datasource-initialization: true
   #sql:
     #init:
-      #mode: always
+      #mode: always # data.sql에 작성된 코드로 데이터베이스 초기화
 
 ---
 spring:
@@ -66,6 +68,8 @@ spring:
 logging:
   level:
     com.example.marketapi: debug
+    #org.hibernate.SQL: debug # logger에 출력하려면
+    #org.hibernate.type.descriptor.sql: trace # 파라미터 값 출력
 
 ---
 jwt:
@@ -80,3 +84,8 @@ spring:
     redis:
       port: ${REDIS_PORT}
       host: ${REDIS_HOST}
+
+---
+toss:
+  api:
+    key: ${TOSS_API_KEY}

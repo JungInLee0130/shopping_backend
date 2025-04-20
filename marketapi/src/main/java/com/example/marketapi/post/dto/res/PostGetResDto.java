@@ -13,10 +13,10 @@ public class PostGetResDto {
     private String content;
     private String nickname;
 
-    public PostGetResDto(Post entity) {
-        this.id = entity.getId();
-        this.title = entity.getTitle();
-        this.content = entity.getContent();
-        this.nickname = entity.getName();
+    public PostGetResDto(Post post) {
+        this.id = post.getId();
+        this.title = post.getTitle();
+        this.content = post.getContent();
+        this.nickname = post.getMember().getName();
     }
 }

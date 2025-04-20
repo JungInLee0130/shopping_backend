@@ -3,9 +3,8 @@ package com.example.marketapi.order.controller;
 import com.example.marketapi.order.dto.request.OrderRequestDto;
 import com.example.marketapi.order.dto.response.OrderPurchasedResponseDto;
 import com.example.marketapi.order.dto.response.OrderResponseDto;
-import com.example.marketapi.order.service.OrderService;
-import com.example.marketapi.order.dto.request.OrderApprovalRequestDto;
 import com.example.marketapi.order.dto.response.OrderPreservedResponseDto;
+import com.example.marketapi.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,23 +18,21 @@ public class OrderController {
 
     private final OrderService orderService;
 
-    // 거래시작 : 구매자
+    /*// 거래시작 : 구매자
     @GetMapping("/buy")
     public ResponseEntity<Void> orderProduct(@RequestBody OrderRequestDto orderRequestDto) {
-        // 구매자이름 + 제품 정보 + 판매자이름을 저장
         orderService.orderProduct(orderRequestDto);
-
         return ResponseEntity.ok().build();
-    }
+    }*/
 
     // 거래내역 확인 : 판매자, 구매자
     @GetMapping("/detail")
-    public OrderResponseDto orderDetails(@RequestParam Long productId) {
-        return orderService.orderDetails(productId);
+    public OrderResponseDto orderDetails(@RequestParam Long orderId) {
+        return orderService.orderDetails(orderId);
     }
 
     // 구매한 용품(구매자)
-    @GetMapping("/purchased")
+    /*@GetMapping("/purchased")
     public ResponseEntity<List<OrderPurchasedResponseDto>> getPurchasedProducts(@RequestParam String purchaserName) {
         return ResponseEntity.ok(orderService.getPurchasedProducts(purchaserName));
     }
@@ -53,5 +50,5 @@ public class OrderController {
     public ResponseEntity<Void> approveSell(@RequestParam Long id) {
         orderService.approveSell(id);
         return ResponseEntity.ok().build();
-    }
+    }*/
 }

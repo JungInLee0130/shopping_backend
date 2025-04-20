@@ -2,6 +2,7 @@ package com.example.marketapi.post.service;
 
 import com.example.marketapi.global.exception.CustomException;
 import com.example.marketapi.global.exception.ErrorCode;
+import com.example.marketapi.member.entity.Member;
 import com.example.marketapi.member.repository.MemberRepository;
 import com.example.marketapi.post.entity.Post;
 import com.example.marketapi.post.dto.req.PostCreateReqDto;
@@ -32,7 +33,9 @@ public class PostService {
 
     @Transactional
     public void createPost(PostCreateReqDto reqDto) {
-        postRepository.save(reqDto.toEntity());
+        Member member = memberRepository.findById(reqDto.getMemberId())
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND, "등록되지않은 회원입니다."));
+        postRepository.save(reqDto.toEntity(member));
     }
 
     @Transactional

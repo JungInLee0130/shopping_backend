@@ -19,10 +19,10 @@ public class Product extends BaseTimeEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member; // 판매자 정보
+    @JoinColumn(referencedColumnName = "member_id", name = "seller_id", nullable = false)
+    private Member seller; // 판매자 정보
 
-    @Column(name = "name")
+    @Column(name = "product_name")
     private String name; // 제품명
 
     @Column(name = "price")
@@ -42,18 +42,18 @@ public class Product extends BaseTimeEntity {
 
 
     @Builder
-    public Product(Member member, String name, Price price, Quantity quantity) {
+    public Product(Member seller, String name, Price price, Quantity quantity) {
         validInitQuantity(quantity); // product 생성시 validation 체크
-        this.member = member;
+        this.seller = seller;
         this.name = name;
         this.price = price;
         this.quantity = quantity;
         this.reservation = Reservation.SALE;
     }
 
-    public Product(Long id, Member member, String name, Price price, Quantity quantity) {
+    public Product(Long id, Member seller, String name, Price price, Quantity quantity) {
         this.id = id;
-        this.member = member;
+        this.seller = seller;
         this.name = name;
         this.price = price;
         this.quantity = quantity;

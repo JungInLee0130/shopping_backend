@@ -1,19 +1,22 @@
 package com.example.marketapi.order.dto.response;
 
 import com.example.marketapi.order.entity.Order;
-import lombok.Builder;
-import lombok.Getter;
+import com.example.marketapi.product.domain.Price;
+import com.example.marketapi.product.domain.Quantity;
+import com.example.marketapi.product.domain.Reservation;
 
-@Getter
-@Builder
-public class OrderResponseDto {
-    private String sellerName;
-    private String purchaserName;
-
-    public static OrderResponseDto of(Order order) {
-        return OrderResponseDto.builder()
-                .sellerName(order.getSellerName())
-                .purchaserName(order.getPurchaserName())
-                .build();
+public record OrderResponseDto(String purchaserName,
+                               String sellerName,
+                               String productName,
+                               Price price,
+                               Quantity quantity,
+                               Reservation reservation) {
+    public OrderResponseDto (Order order){
+        this(order.getPurchaser().getName(),
+                order.getProduct().getSeller().getName(),
+                order.getProduct().getName(),
+                order.getProduct().getPrice(),
+                order.getProduct().getQuantity(),
+                order.getProduct().getReservation());
     }
 }

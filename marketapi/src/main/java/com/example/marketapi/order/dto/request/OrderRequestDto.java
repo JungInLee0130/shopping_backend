@@ -1,10 +1,8 @@
 package com.example.marketapi.order.dto.request;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
-@Getter
-public class OrderRequestDto {
-    private String sellerName; // 판매자
-    private String purchaserName; // 구매자
-    private Long productId; // 제품번호
+public record OrderRequestDto (@NotNull Long purchaserId,
+                               @NotNull Long productId){
 }

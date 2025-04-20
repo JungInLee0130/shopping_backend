@@ -21,32 +21,28 @@ public class Member extends BaseTimeEntity {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "name", nullable = false, unique = true)
+    @Column(name = "member_name", nullable = false, unique = true)
     private String name;
 
     @Column(name = "profile")
     private String profile;
 
-    @Column(name = "member_key", nullable = false, unique = true)
-    private String memberKey;
+    @Column(name = "member_key", unique = true)
+    private String memberKey; // uuid
 
     @Embedded // @Embeddable 클래스를 가져옴. 이 내부에서 재정의를 안함. // 새로운 테이블로 재생성 x
     private Address address;
-    @Column(nullable = false)
+
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @Column(name = "member_uuid")
-    private String uuid;
-
     @Builder
-    public Member(String email, String name, String profile, String memberKey, Role role) {
+    public Member(String email, String name, String profile, Role role) {
         this.email = email;
         this.name = name;
         this.profile = profile;
-        this.memberKey = memberKey;
+        this.memberKey = UUID.randomUUID().toString();
         this.role = role;
-        this.uuid = UUID.randomUUID().toString();
     }
 
     public Member(Long id, String email, String name, String profile, Role role, Address address) {

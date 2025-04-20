@@ -8,21 +8,21 @@ import lombok.Builder;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.marketapi.order.domain.QOrder.order;
+import static com.example.marketapi.order.entity.QOrder.order;
 import static com.example.marketapi.product.entity.QProduct.product;
 
 @Builder
 public class OrderPreservedResponseDto {
     private String productName;
-    private Price price;
+    //private Price price;
     private String sellerName;
 
     public static OrderPreservedResponseDto of(Tuple tuple) {
         return OrderPreservedResponseDto.builder()
                 .productName(tuple.get(
                         product.name))
-                .price(tuple.get(product.price))
-                .sellerName(tuple.get(order.sellerName))
+                //.price(tuple.get(product.price))
+                //.sellerName(tuple.get(order.seller))
                 .build();
     }
 

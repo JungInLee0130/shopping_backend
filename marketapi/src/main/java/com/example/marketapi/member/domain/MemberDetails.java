@@ -55,6 +55,6 @@ public record MemberDetails(Member member,
     }
 
     public String getMemberUUID(){
-        return member.getUuid();
+        return member.getMemberKey();
     }
 }

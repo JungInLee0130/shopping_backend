@@ -1,5 +1,6 @@
 package com.example.marketapi.post.dto.req;
 
+import com.example.marketapi.member.entity.Member;
 import com.example.marketapi.post.entity.Post;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,14 +10,15 @@ import lombok.NoArgsConstructor;
 public class PostCreateReqDto {
     String userId;
     String title;
-    String nickname;
     String content;
 
-    public Post toEntity(){
+    Long memberId;
+
+    public Post toEntity(Member member){
         return Post.builder()
                 .title(title)
                 .content(content)
-                .nickname(nickname)
+                .member(member)
                 .build();
     }
 }
