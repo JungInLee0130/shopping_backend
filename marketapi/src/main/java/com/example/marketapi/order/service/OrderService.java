@@ -34,12 +34,11 @@ public class OrderService{
 
     @Transactional
     public void orderProduct(OrderRequestDto orderRequestDto) {
-        Long productId = orderRequestDto.productId();
-        Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND));
-        Long purchaserId = orderRequestDto.purchaserId();
-        Member purchaser = memberRepository.findById(purchaserId)
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND));
+        Product product = productRepository.findById(orderRequestDto.productId())
+                .orElseThrow(() -> new CustomException(ErrorCode.PRODUCT_NOT_FOUND));
+
+        Member purchaser = memberRepository.findById(orderRequestDto.purchaserId())
+                .orElseThrow(() -> new CustomException(ErrorCode.PURCHASER_NOT_FOUND));
 
         Order order = Order.builder()
                 .product(product)

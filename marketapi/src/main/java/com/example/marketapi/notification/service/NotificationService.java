@@ -19,7 +19,6 @@ import java.util.*;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class NotificationService {
     private static final Long DEFAULT_TIMEOUT = 60L * 60 * 1000; // 1시간
 

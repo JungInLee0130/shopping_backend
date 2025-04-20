@@ -18,17 +18,17 @@ public class OrderController {
 
     private final OrderService orderService;
 
-    /*// 거래시작 : 구매자
-    @GetMapping("/buy")
+    // 거래시작 : 구매자
+    @PostMapping
     public ResponseEntity<Void> orderProduct(@RequestBody OrderRequestDto orderRequestDto) {
         orderService.orderProduct(orderRequestDto);
         return ResponseEntity.ok().build();
-    }*/
+    }
 
     // 거래내역 확인 : 판매자, 구매자
     @GetMapping("/detail")
-    public OrderResponseDto orderDetails(@RequestParam Long orderId) {
-        return orderService.orderDetails(orderId);
+    public ResponseEntity<OrderResponseDto> orderDetails(@RequestParam Long orderId) {
+        return ResponseEntity.ok(orderService.orderDetails(orderId));
     }
 
     // 구매한 용품(구매자)
