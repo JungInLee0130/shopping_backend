@@ -1,9 +1,8 @@
 package com.example.marketapi.order.controller;
 
 import com.example.marketapi.order.dto.request.OrderRequestDto;
-import com.example.marketapi.order.dto.response.OrderPurchasedResponseDto;
+import com.example.marketapi.order.dto.response.OrderLogResponseDto;
 import com.example.marketapi.order.dto.response.OrderResponseDto;
-import com.example.marketapi.order.dto.response.OrderPreservedResponseDto;
 import com.example.marketapi.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -30,22 +29,23 @@ public class OrderController {
     public ResponseEntity<OrderResponseDto> orderDetails(@RequestParam Long orderId) {
         return ResponseEntity.ok(orderService.orderDetails(orderId));
     }
-
+    
+    // 거래완료 -> 물품도 판매완료
     // 구매한 용품(구매자)
-    /*@GetMapping("/purchased")
-    public ResponseEntity<List<OrderPurchasedResponseDto>> getPurchasedProducts(@RequestParam String purchaserName) {
-        return ResponseEntity.ok(orderService.getPurchasedProducts(purchaserName));
+    @GetMapping("/finished")
+    public ResponseEntity<List<OrderLogResponseDto>> getFinishedOrders (@RequestParam Long memberId) {
+        return ResponseEntity.ok(orderService.getFinishedOrders(memberId));
     }
 
     // 예약중인 용품 확인가능(구매자, 판매자 모두)
     @GetMapping("/preserved")
-    public ResponseEntity<List<OrderPreservedResponseDto>> getPreservedProducts(@RequestParam String name) {
-        return ResponseEntity.ok(orderService.getPreservedProducts(name));
+    public ResponseEntity<List<OrderLogResponseDto>> getPreservedProducts(@RequestParam Long memberId) {
+        return ResponseEntity.ok(orderService.getPreservedProducts(memberId));
     }
 
 
     // 판매승인 : 판매자
-    @PutMapping("/approve")
+    /*@PutMapping("/approve")
     // parameter : 판매자 이름, 제품이름, 구매자이름
     public ResponseEntity<Void> approveSell(@RequestParam Long id) {
         orderService.approveSell(id);

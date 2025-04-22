@@ -1,13 +1,11 @@
 package com.example.marketapi.order.repository;
 
 import com.example.marketapi.order.entity.Order;
+import com.example.marketapi.order.entity.OrderLog;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
-@Repository
-public interface OrderRepository extends JpaRepository<Order, Long>, OrderCustomRepository {
-    //Optional<Order> findByProductId(Long productId);
+public interface OrderLogRepository extends JpaRepository<OrderLog, Long>, OrderLogCustomRepository{
 }
