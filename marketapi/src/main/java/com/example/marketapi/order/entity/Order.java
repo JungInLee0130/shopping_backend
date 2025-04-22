@@ -1,6 +1,7 @@
 package com.example.marketapi.order.entity;
 
 import com.example.marketapi.member.entity.Member;
+import com.example.marketapi.order.domain.OrderStatus;
 import com.example.marketapi.product.entity.Product;
 import jakarta.persistence.*;
 import lombok.*;
@@ -23,9 +24,14 @@ public class Order{
     @JoinColumn(name = "product_id", nullable = false)
     private Product product; // 제품
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "order_status_code")
+    private OrderStatus orderStatus;
+
     @Builder
-    public Order(Member purchaser, Product product) {
+    public Order(Member purchaser, Product product, OrderStatus orderStatus) {
         this.purchaser = purchaser;
         this.product = product;
+        this.orderStatus = OrderStatus.PROGRESS; // 처음 생성시 진행중
     }
 }

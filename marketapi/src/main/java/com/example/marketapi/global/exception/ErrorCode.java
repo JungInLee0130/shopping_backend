@@ -16,7 +16,8 @@ public enum ErrorCode {
     PRODUCT_NOT_FOUND(HttpStatus.NOT_FOUND, "등록되지않은 제품입니다."),
     PURCHASER_NOT_FOUND(HttpStatus.NOT_FOUND, "등록되지않은 구매자입니다."),
     SELLER_NOT_FOUND(HttpStatus.NOT_FOUND, "등록되지않은 판매자입니다."),
-    ORDER_NOT_FOUND(HttpStatus.NOT_FOUND, "등록되지않은 주문입니다.");
+    ORDER_NOT_FOUND(HttpStatus.NOT_FOUND, "등록되지않은 주문입니다."),
+    ORDERLOG_NOT_FOUND(HttpStatus.NOT_FOUND, "등록되지않은 주문기록입니다.");
 
 
     private final HttpStatus status;
